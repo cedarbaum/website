@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on Hi, I am Sam.</title>
+    <link>https://www.cedarbaum.io/tags/</link>
+    <description>Recent content in Tags on Hi, I am Sam.</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>© 2019 Copyright Sam Cedarbaum. Powered by &lt;a href=&#39;https://gohugo.io/&#39; class=&#39;link black-40&#39;&gt;Hugo&lt;/a&gt;.</copyright>
+    
+	<atom:link href="https://www.cedarbaum.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+  </channel>
+</rss>
