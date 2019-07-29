@@ -9,7 +9,7 @@ pygmentsCodeFences = true
 pygmentsStyle = "emacs"
 
 [params]
-  titleEmoji = ":pizza: :running:"
+# titleEmoji = ":pizza: :running:"
   twitter = "_cedarbaum"
 
 [taxonomies]
