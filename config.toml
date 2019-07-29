@@ -1,0 +1,30 @@
+baseURL = "https://www.cedarbaum.io"
+languageCode = "en-us"
+title = "Hi, I am Sam."
+theme = "hugo-theme-basic"
+copyright = "© 2019 Copyright Sam Cedarbaum. Powered by <a href='https://gohugo.io/' class='link black-40'>Hugo</a>."
+
+enableEmoji = true
+pygmentsCodeFences = true
+pygmentsUseClasses = true
+pygmentsStyle = "emacs"
+
+[params]
+  titleEmoji = ":pizza: :running:"
+  twitter = "_cedarbaum"
+
+[taxonomies]
+  category = "categories"
+  series = "series"
+  tag = "tags"
+
+[Permalinks]
+  post = "post/:slug"
+
+#[[params.menu]]
+# name = "blog"
+# url = "post/"
+
+[[params.menu]]
+  name = "about"
+  url = "about/"
