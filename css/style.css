@@ -31,6 +31,10 @@ code {
   -moz-osx-font-smoothing: grayscale;
 }
 
+pre>code {
+  display: block;
+}
+
 /* Use GitHub-style tables. CSS from https://gist.github.com/tuzz/3331384. */
 
 table {
