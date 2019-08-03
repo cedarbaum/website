@@ -2,7 +2,7 @@ baseURL = "https://www.cedarbaum.io"
 languageCode = "en-us"
 title = "Hi, I am Sam."
 theme = "hugo-theme-basic"
-copyright = "Built with <a href='https://gohugo.io/' class='link black-40'>Hugo</a> and <a href='https://ox-hugo.scripter.co/' class='link black-40'>ox-hugo</a>. This website does not use :cookie:s."
+copyright = "Built with <a href='https://gohugo.io/' class='link black-40'>Hugo</a> and <a href='https://ox-hugo.scripter.co/' class='link black-40'>ox-hugo</a>."
 
 enableEmoji = true
 pygmentsCodeFences = true
