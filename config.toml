@@ -1,4 +1,4 @@
-baseURL = "https://www.cedarbaum.io"
+baseURL = "https://www.cedarbaum.io/"
 languageCode = "en-us"
 title = "Hi, I am Sam."
 theme = "hugo-theme-basic"
