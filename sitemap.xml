@@ -3,11 +3,27 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://www.cedarbaum.io/categories/</loc>
+    <loc>https://www.cedarbaum.io/about/</loc>
+    <lastmod>2020-09-07T23:40:28-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.cedarbaum.io/post/diet-coke-reviews/</loc>
+    <lastmod>2020-09-07T23:40:28-07:00</lastmod>
   </url>
   
   <url>
     <loc>https://www.cedarbaum.io/</loc>
+    <lastmod>2020-09-07T23:40:28-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.cedarbaum.io/post/</loc>
+    <lastmod>2020-09-07T23:40:28-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.cedarbaum.io/categories/</loc>
   </url>
   
   <url>
