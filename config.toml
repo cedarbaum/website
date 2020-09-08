@@ -27,3 +27,6 @@ pygmentsStyle = "emacs"
 [[params.menu]]
   name = "about"
   url = "about/"
+
+[markup.goldmark.renderer]
+  unsafe= true
