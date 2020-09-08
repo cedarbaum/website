@@ -1,3 +1,6 @@
 [submodule "themes/hugo-theme-basic"]
 	path = themes/hugo-theme-basic
 	url = git@github.com:cedarbaum/hugo-theme-basic.git
+[submodule "website-content"]
+	path = website-content
+	url = git@github.com:cedarbaum/website-content.git

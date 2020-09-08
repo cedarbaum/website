@@ -20,9 +20,9 @@ pygmentsStyle = "emacs"
 [Permalinks]
   post = "post/:slug"
 
-# [[params.menu]]
-  # name = "blog"
-  # url = "post/"
+[[params.menu]]
+  name = "blog"
+  url = "post/"
 
 [[params.menu]]
   name = "about"
