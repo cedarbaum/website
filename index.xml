@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Hi, I am Sam.</title>
@@ -7,30 +7,29 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Built with &lt;a href=&#39;https://gohugo.io/&#39; class=&#39;link black-40&#39;&gt;Hugo&lt;/a&gt; and &lt;a href=&#39;https://ox-hugo.scripter.co/&#39; class=&#39;link black-40&#39;&gt;ox-hugo&lt;/a&gt;.</copyright>
-    <lastBuildDate>Fri, 06 Nov 2020 00:37:45 -0800</lastBuildDate>
+    <lastBuildDate>Tue, 08 Sep 2020 02:34:12 -0700</lastBuildDate>
     
 	<atom:link href="https://www.cedarbaum.io/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>About</title>
-      <link>https://www.cedarbaum.io/about/</link>
-      <pubDate>Fri, 06 Nov 2020 00:37:45 -0800</pubDate>
-      
-      <guid>https://www.cedarbaum.io/about/</guid>
-      <description> &amp;ldquo;Python combines my two greatest fears; snakes and dynamic typing.&amp;rdquo;
- I am a software engineer currently working at Microsoft. You can reach me at the below places:
- Email: sam@{this web site} GitHub Strava Twitter  </description>
-    </item>
-    
-    <item>
       <title>Diet Coke Reviews</title>
       <link>https://www.cedarbaum.io/post/diet-coke-reviews/</link>
-      <pubDate>Fri, 06 Nov 2020 00:36:57 -0800</pubDate>
+      <pubDate>Tue, 08 Sep 2020 02:34:12 -0700</pubDate>
       
       <guid>https://www.cedarbaum.io/post/diet-coke-reviews/</guid>
       <description>Below, I review Diet Coke quality at various restaurants (primarily in the greater Seattle, WA area). Seems like a good use of everyone&amp;rsquo;s time!
 McDonalds, USA 🍔 🍟  The gold standard; Diet Coke in its canonical form. Seriously, there is no point in reading the rest of these reviews. Why is it so good?       Feed Co., Redmond WA 🍔 Editors note: This restaurant is now &#34;</description>
+    </item>
+    
+    <item>
+      <title>About</title>
+      <link>https://www.cedarbaum.io/about/</link>
+      <pubDate>Tue, 08 Sep 2020 02:33:53 -0700</pubDate>
+      
+      <guid>https://www.cedarbaum.io/about/</guid>
+      <description>I am a software engineer currently working at Microsoft. You can reach me at the below places:
+ Email: sam@{this web site} GitHub Strava Twitter  </description>
     </item>
     
   </channel>
