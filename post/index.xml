@@ -7,29 +7,18 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Built with &lt;a href=&#39;https://gohugo.io/&#39; class=&#39;link black-40&#39;&gt;Hugo&lt;/a&gt; and &lt;a href=&#39;https://ox-hugo.scripter.co/&#39; class=&#39;link black-40&#39;&gt;ox-hugo&lt;/a&gt;.</copyright>
-    <lastBuildDate>Sun, 31 Jan 2021 19:47:27 -0800</lastBuildDate>
     
 	<atom:link href="https://www.cedarbaum.io/post/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Keeping track of movies with Emacs and Org mode</title>
-      <link>https://www.cedarbaum.io/post/movies-org/</link>
-      <pubDate>Sun, 31 Jan 2021 19:47:27 -0800</pubDate>
+      <link>https://www.cedarbaum.io/post/keeping-track-of-movies-with-emacs-and-org-mode/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://www.cedarbaum.io/post/movies-org/</guid>
+      <guid>https://www.cedarbaum.io/post/keeping-track-of-movies-with-emacs-and-org-mode/</guid>
       <description>Introduction A while back, I decided to start cataloging the movies I&amp;rsquo;ve seen. This started as a simple table in Emacs Org mode. Below is an example of the table&amp;rsquo;s structure:
-| Movie Title | Release year | Genre | Rating | Notes | |-------------+--------------+------------------------------+------------+------------------| | Up | 2009 | Animation, Adventure, Comedy | 8.5 / 10.0 | Lots of balloons | | WALL-E | 2008 | Animation, Adventure, Family | 8.</description>
-    </item>
-    
-    <item>
-      <title>Diet Coke Reviews</title>
-      <link>https://www.cedarbaum.io/post/diet_coke_reviews/</link>
-      <pubDate>Sun, 31 Jan 2021 19:47:26 -0800</pubDate>
-      
-      <guid>https://www.cedarbaum.io/post/diet_coke_reviews/</guid>
-      <description>Below, I review Diet Coke quality at various restaurants (primarily in the greater Seattle, WA area). Seems like a good use of everyone&amp;rsquo;s time!
-McDonalds, USA 🍔 🍟  The gold standard; Diet Coke in its canonical form. Seriously, there is no point in reading the rest of these reviews. Why is it so good?       Feed Co., Redmond WA 🍔 Editors note: This restaurant is now &#34;</description>
+   Title Year Genre imdbRating Rating Notes     Up 2009 Animation, Adventure, Comedy 8.2 8 / 10 Lots of Balloons   WALL-E 2008 Animation, Adventure, Family 8.4 8.3 / 10 Littering is bad   Toy Story 1995 Animation, Adventure, Comedy 8.</description>
     </item>
     
   </channel>

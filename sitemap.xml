@@ -4,7 +4,6 @@
   
   <url>
     <loc>https://www.cedarbaum.io/about/</loc>
-    <lastmod>2021-02-02T15:39:01-06:00</lastmod>
   </url>
   
   <url>
@@ -13,6 +12,14 @@
   
   <url>
     <loc>https://www.cedarbaum.io/</loc>
+  </url>
+  
+  <url>
+    <loc>https://www.cedarbaum.io/post/keeping-track-of-movies-with-emacs-and-org-mode/</loc>
+  </url>
+  
+  <url>
+    <loc>https://www.cedarbaum.io/post/</loc>
   </url>
   
   <url>

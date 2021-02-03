@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html
+  class=""
+  lang="en-us"
+  prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#"
+>
+  <head>
+    <meta charset="utf-8" />
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="description" content="" />
+<meta name="HandheldFriendly" content="True" />
+<meta name="MobileOptimized" content="320" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="description" content="Using org-mode to efficiently catalog movies." />
+
+<meta name="keywords" content="">
+
+
+<meta property="og:type" content="article" />
+<meta property="og:description" content="Using org-mode to efficiently catalog movies." />
+<meta property="og:title" content="Keeping track of movies with Emacs and Org mode" />
+<meta property="og:site_name" content="Hi, I am Sam." />
+<meta property="og:image" content="" />
+<meta property="og:image:type" content="image/jpeg" />
+<meta property="og:image:width" content="" />
+<meta property="og:image:height" content="" />
+<meta property="og:url" content="https://www.cedarbaum.io/post/keeping-track-of-movies-with-emacs-and-org-mode/" />
+<meta property="og:locale" content="en-us" />
+<meta property="article:published_time" content="0001-01-01
+" /> <meta property="article:modified_time" content="0001-01-01
+" />
+
+
+
+
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@_cedarbaum" />
+<meta name="twitter:creator" content="@_cedarbaum" />
+<meta
+  name="twitter:title"
+  content="Keeping track of movies with Emacs and Org mode | Hi, I am Sam."
+/>
+<meta
+  name="twitter:description"
+  content="Using org-mode to efficiently catalog movies.|"
+/>
+<meta name="twitter:image:src" content="" />
+<meta name="twitter:domain" content="https://www.cedarbaum.io/post/keeping-track-of-movies-with-emacs-and-org-mode/" />
+
+
+
+    <title>Keeping track of movies with Emacs and Org mode</title>
+    <link rel="canonical" href="https://www.cedarbaum.io/post/keeping-track-of-movies-with-emacs-and-org-mode/" />
+
+
+    <link
+  rel="stylesheet"
+  href="https://unpkg.com/tachyons@4.11.1/css/tachyons.min.css"
+/>
+
+<link rel="stylesheet" href="https://www.cedarbaum.io/css/style.css" />
+
+
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+      .fa-star, .fa-star-half-o, .fa-star-o {
+          border-color: orange;
+          color: orange;
+      }
+      .info {
+          background-color: #e7f3fe;
+          border-left: 3px solid #2196F3;
+          text-indent: 5px;
+      }
+      figcaption {
+          caption-side: bottom;
+      }
+      figcaption > p {
+          text-align: center;
+      }
+    </style>
+  </head>
+
+<body
+  lang="en-us"
+  class="sans-serif w-90 w-80-m w-80-ns center mv2 mv5-ns"
+  itemscope
+  itemtype="http://schema.org/Article"
+>
+
+  <span class="b">/ </span>
+  <a href="https://www.cedarbaum.io/" class="b bb bw1 pb1 no-underline black">Hi, I am Sam.</a>
+  <span class="b"> / </span>
+  <a href="/post" class="b bb bw1 pb1 no-underline black">blog</a>
+
+  <section id="main" class="mt5">
+    <h1 itemprop="name" id="title">Keeping track of movies with Emacs and Org mode</h1>
+    <span class="f6 gray">January 1, 0001</span>
+
+      <article itemprop="articleBody" id="content" class="w-90 lh-copy">
+        <h2 id="introduction">Introduction</h2>
+<p>A while back, I decided to start cataloging the movies I&rsquo;ve seen. This started as a simple table in Emacs <a href="https://orgmode.org/">Org mode</a>. Below is an example of the table&rsquo;s structure:</p>
+<table>
+<thead>
+<tr>
+<th>Title</th>
+<th>Year</th>
+<th>Genre</th>
+<th>imdbRating</th>
+<th>Rating</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.imdb.com/title/tt1049413">Up</a></td>
+<td>2009</td>
+<td>Animation, Adventure, Comedy</td>
+<td>8.2</td>
+<td>8 / 10</td>
+<td>Lots of Balloons</td>
+</tr>
+<tr>
+<td><a href="https://www.imdb.com/title/tt0910970">WALL-E</a></td>
+<td>2008</td>
+<td>Animation, Adventure, Family</td>
+<td>8.4</td>
+<td>8.3 / 10</td>
+<td>Littering is bad</td>
+</tr>
+<tr>
+<td><a href="https://www.imdb.com/title/tt0114709">Toy Story</a></td>
+<td>1995</td>
+<td>Animation, Adventure, Comedy</td>
+<td>8.3</td>
+<td>8.5 / 10</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Manually entering metadata for each movie was tedious, especially since I wanted to backfill movies I&rsquo;d previously seen. I wanted to simply add the title and have the rest of the information filled in for me. I googled around for a solution and found this <a href="https://gist.github.com/bo0ts/3941705">Gist</a> which demonstrates how to import movie metadata from <a href="http://www.omdbapi.com/">OMDB</a> (&ldquo;The Open Movie Database&rdquo;) into Org mode (specifically, a nicely formatted IMDB link with some metadata attached to it). Although not exactly what I want to do, it did introduce me to what OMDB was and how one can query it with a little bit of Elisp.</p>
+<p>From there, I wrote some <a href="https://orgmode.org/worg/org-contrib/babel/">Org Babel</a> code to return specific metadata properties (e.g., &ldquo;Year&rdquo;, &ldquo;Genre&rdquo;, &ldquo;imdbRating&rdquo;) for a given movie. Finally, using Org mode&rsquo;s <a href="https://orgmode.org/worg/org-tutorials/org-spreadsheet-intro.html">spreadsheet capabilities</a>, I was able to automatically populate each row with</p>
+<figure>
+    <img src="/ox-hugo/demo.gif"/> 
+</figure>
+
+<h2 id="using-omdb-s-api">Using OMDB&rsquo;s API</h2>
+<p>Using OMDB&rsquo;s API is pretty simple. First, sign-up <a href="http://www.omdbapi.com/apikey.aspx">here</a> to receive an API key. The free-tier offers 1000 requests per day, which should be plenty for this project.</p>
+<p>Once you have a key, you can start making requests. For example, running:</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-http" data-lang="http"><span style="">GET http://omdbapi.com/?t=Up&amp;apiKey=[YOUR KEY]
+</span></code></pre></div><p>Yields:</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+   <span style="color:#008000;font-weight:bold">&#34;Title&#34;</span>:<span style="color:#b44">&#34;Up&#34;</span>,
+   <span style="color:#008000;font-weight:bold">&#34;Year&#34;</span>:<span style="color:#b44">&#34;2009&#34;</span>,
+   <span style="color:#008000;font-weight:bold">&#34;Rated&#34;</span>:<span style="color:#b44">&#34;PG&#34;</span>,
+   <span style="color:#008000;font-weight:bold">&#34;Released&#34;</span>:<span style="color:#b44">&#34;29 May 2009&#34;</span>,
+   <span style="color:#008000;font-weight:bold">&#34;Runtime&#34;</span>:<span style="color:#b44">&#34;96 min&#34;</span>,
+   <span style="color:#008000;font-weight:bold">&#34;Genre&#34;</span>:<span style="color:#b44">&#34;Animation, Adventure, Comedy, Family&#34;</span>,
+   <span style="color:#008000;font-weight:bold">&#34;Director&#34;</span>:<span style="color:#b44">&#34;Pete Docter, Bob Peterson(co-director)&#34;</span>,
+   <span style="color:#008000;font-weight:bold">&#34;Writer&#34;</span>:<span style="color:#b44">&#34;Pete Docter (story by), Bob Peterson (story by), Tom McCarthy (story by), Bob Peterson (screenplay by), Pete Docter (screenplay by)&#34;</span>,
+   <span style="">&lt;snip&gt;</span>
+}
+</code></pre></div><p>You can also optionally specify the year with the <code>y</code> query parameter. This will help disambiguate movies with the same title that were released in different years. If two movies have the same name and were both released in the same year<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> - well, lets now worry about that for now 😄.</p>
+<h2 id="the-code">The code</h2>
+<p>Below is a Gist with a sample Org file to get started. To see the raw Org file, you can click &ldquo;view raw&rdquo; in the bottom right. A few notes:</p>
+<ol>
+<li>
+<p>To use your OMDB key, you can either put it in the file <code>~/.omdbapikey</code> or directly set the <code>omdb-api-key</code> variable.</p>
+</li>
+<li>
+<p>To avoid constant prompts to evaluate inline code within the Org file, you may wish to set <code>org-confirm-babel-evaluate</code> to <code>nil</code>. Of course, make sure you read and trust my code and review this <a href="https://orgmode.org/manual/Code-Evaluation-Security.html">page</a> first.</p>
+</li>
+<li>
+<p>In order for the IMDB links to work, make sure you evaluate (<code>C-c C-c</code>) the line <code>#+LINK: imdb    https://www.imdb.com/title/%s</code>.</p>
+</li>
+<li>
+<p>The entry point for the table formula to retrieve a cell&rsquo;s details is <code>get-movie-metadata</code>. This function takes the movie&rsquo;s title, the movie&rsquo;s release year (optional, if disambiguation is needed), and the header name (e.g., Genre, imdbRating). It returns the metadata that corresponds to the column&rsquo;s header.</p>
+</li>
+<li>
+<p>The code maintains a simple cache represented as a 2-level hash table (first level is the movie title and the second level is the release year). This is to avoid calling OMDB multiple times for the same movie, since we only need 1 request to retrieve all of the metadata for the row.</p>
+</li>
+<li>
+<p>The table formula at the bottom is a bit cryptic, so I&rsquo;ll briefly go through the pieces:</p>
+<pre><code class="language-nil" data-lang="nil">#+TBLFM: @2$&lt;..@&gt;$4='(if (or (string-blank-p $0) (and (equal @1 &quot;Title&quot;) (not (string-prefix-p &quot;[[&quot; $0)))) (org-sbe &quot;get-movie-metadata&quot; (title $$1) (year $$2) (header $@1)) $0)
+</code></pre><p>a. <code>@2$&lt;..@&gt;$4=</code>: This will restrict the range of the formula to the second row onwards (ignoring the header) and from columns 1 to 4. The 5th and 6th columns are where I write my own notes. If you wish to add more metadata from the movie, you can simply add another column with the appropriate header (e.g., &ldquo;Director&rdquo;) and modify the range to include the new column.</p>
+<p>b. <code>(or (string-blank-p $0) (and (equal @1 &quot;Title&quot;) (not (string-prefix-p &quot;[[&quot; $0))))</code>: This conditional is an optimization to only run the Org babel block if the cell is either empty or if it is the &ldquo;Title&rdquo; column and it hasn&rsquo;t been formatted as an IMDB link yet, which will start with &ldquo;[[&rdquo;. If this condition is <code>false</code>, the cell is populated with whatever was already there, which is represented by the special <code>$0</code> cell reference.</p>
+<p>c. <code>(org-sbe &quot;get-movie-metadata&quot; (title $$1) (year $$2) (header $@1))</code>: This calls the Org babel function and populates the cell with the result.</p>
+</li>
+</ol>
+<script src="https://gist.github.com/cedarbaum/8ada31a54dac97ba8c7949c50362b587.js"></script>
+<h2 id="related-work">Related work</h2>
+<p>A user on the Emacs subreddit created a package to query OMDB and also nicely insert the movie metadata under Org headers. It even supports movie posters! The post can be found <a href="https://www.reddit.com/r/emacs/comments/l0wfgu/omdb%5Fclient%5Ffor%5Femacs%5Fand%5Forgmode%5Fsimple/">here</a> and the GitHub page for the package can be found <a href="https://github.com/isamert/orgmdb.el">here</a>. This was released after I had written the above solution, otherwise it would have been awesome to use this in my code.</p>
+<section class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1" role="doc-endnote">
+<p><a href="https://movies.stackexchange.com/questions/78328/have-there-ever-been-movies-with-the-same-name-released-in-the-same-year">https://movies.stackexchange.com/questions/78328/have-there-ever-been-movies-with-the-same-name-released-in-the-same-year</a> <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</section>
+
+      </article>
+
+      
+      <span class="f6 gray mv3" title="Lastmod: January 1, 0001. Published at: 0001-01-01.">
+        
+      </span>
+
+      
+
+  </section>
+
+  <footer>
+  <div>
+    <p class="f6 gray mt6 lh-copy">
+      Built with <a href='https://gohugo.io/' class='link black-40'>Hugo</a> and <a href='https://ox-hugo.scripter.co/' class='link black-40'>ox-hugo</a>.
+    </p>
+  </div>
+</footer>
+
+  </body>
+</html>
