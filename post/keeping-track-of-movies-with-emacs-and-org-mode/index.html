@@ -28,8 +28,8 @@
 <meta property="og:image:height" content="" />
 <meta property="og:url" content="https://www.cedarbaum.io/post/keeping-track-of-movies-with-emacs-and-org-mode/" />
 <meta property="og:locale" content="en-us" />
-<meta property="article:published_time" content="0001-01-01
-" /> <meta property="article:modified_time" content="0001-01-01
+<meta property="article:published_time" content="2021-02-03
+" /> <meta property="article:modified_time" content="2021-02-03
 " />
 
 
@@ -102,7 +102,7 @@
 
   <section id="main" class="mt5">
     <h1 itemprop="name" id="title">Keeping track of movies with Emacs and Org mode</h1>
-    <span class="f6 gray">January 1, 0001</span>
+    <span class="f6 gray">February 3, 2021</span>
 
       <article itemprop="articleBody" id="content" class="w-90 lh-copy">
         <h2 id="introduction">Introduction</h2>
@@ -146,7 +146,7 @@
 </tbody>
 </table>
 <p>Manually entering metadata for each movie was tedious, especially since I wanted to backfill movies I&rsquo;d previously seen. I wanted to simply add the title and have the rest of the information filled in for me. I googled around for a solution and found this <a href="https://gist.github.com/bo0ts/3941705">Gist</a> which demonstrates how to import movie metadata from <a href="http://www.omdbapi.com/">OMDB</a> (&ldquo;The Open Movie Database&rdquo;) into Org mode (specifically, a nicely formatted IMDB link with some metadata attached to it). Although not exactly what I want to do, it did introduce me to what OMDB was and how one can query it with a little bit of Elisp.</p>
-<p>From there, I wrote some <a href="https://orgmode.org/worg/org-contrib/babel/">Org Babel</a> code to return specific metadata properties (e.g., &ldquo;Year&rdquo;, &ldquo;Genre&rdquo;, &ldquo;imdbRating&rdquo;) for a given movie. Finally, using Org mode&rsquo;s <a href="https://orgmode.org/worg/org-tutorials/org-spreadsheet-intro.html">spreadsheet capabilities</a>, I was able to automatically populate each row with</p>
+<p>From there, I wrote some <a href="https://orgmode.org/worg/org-contrib/babel/">Org Babel</a> code to return specific metadata properties (e.g., &ldquo;Year&rdquo;, &ldquo;Genre&rdquo;, &ldquo;imdbRating&rdquo;) for a given movie. Finally, using Org mode&rsquo;s <a href="https://orgmode.org/worg/org-tutorials/org-spreadsheet-intro.html">spreadsheet capabilities</a>, I was able to automatically populate each row with the corresponding movie&rsquo;s metadata, as well as create a nicely formatted IMDB link in the &ldquo;Title&rdquo; column. A demo can be seen below and the rest of the article goes over the OMDB API and Org file setup.</p>
 <figure>
     <img src="/ox-hugo/demo.gif"/> 
 </figure>
@@ -209,7 +209,7 @@
       </article>
 
       
-      <span class="f6 gray mv3" title="Lastmod: January 1, 0001. Published at: 0001-01-01.">
+      <span class="f6 gray mv3" title="Lastmod: February 3, 2021. Published at: 2021-02-03.">
         
       </span>
 

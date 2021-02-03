@@ -3,23 +3,26 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://www.cedarbaum.io/</loc>
+    <lastmod>2021-02-03T00:00:00-06:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.cedarbaum.io/post/keeping-track-of-movies-with-emacs-and-org-mode/</loc>
+    <lastmod>2021-02-03T00:00:00-06:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.cedarbaum.io/post/</loc>
+    <lastmod>2021-02-03T00:00:00-06:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://www.cedarbaum.io/about/</loc>
   </url>
   
   <url>
     <loc>https://www.cedarbaum.io/categories/</loc>
-  </url>
-  
-  <url>
-    <loc>https://www.cedarbaum.io/</loc>
-  </url>
-  
-  <url>
-    <loc>https://www.cedarbaum.io/post/keeping-track-of-movies-with-emacs-and-org-mode/</loc>
-  </url>
-  
-  <url>
-    <loc>https://www.cedarbaum.io/post/</loc>
   </url>
   
   <url>
