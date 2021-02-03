@@ -13,6 +13,16 @@
     
     
     <item>
+      <title>About</title>
+      <link>https://www.cedarbaum.io/about/</link>
+      <pubDate>Wed, 03 Feb 2021 16:18:57 -0600</pubDate>
+      
+      <guid>https://www.cedarbaum.io/about/</guid>
+      <description>I am a software engineer. You can reach me at the below places:
+ Email: sam@{this web site} GitHub  </description>
+    </item>
+    
+    <item>
       <title>Keeping track of movies with Emacs and Org mode</title>
       <link>https://www.cedarbaum.io/post/keeping-track-of-movies-with-emacs-and-org-mode/</link>
       <pubDate>Wed, 03 Feb 2021 00:00:00 -0600</pubDate>
@@ -20,16 +30,6 @@
       <guid>https://www.cedarbaum.io/post/keeping-track-of-movies-with-emacs-and-org-mode/</guid>
       <description>Introduction A while back, I decided to start cataloging the movies I&amp;rsquo;ve seen. This started as a simple table in Emacs Org mode. Below is an example of the table&amp;rsquo;s structure:
    Title Year Genre imdbRating Rating Notes     Up 2009 Animation, Adventure, Comedy 8.2 8 / 10 Lots of Balloons   WALL-E 2008 Animation, Adventure, Family 8.4 8.3 / 10 Littering is bad   Toy Story 1995 Animation, Adventure, Comedy 8.</description>
-    </item>
-    
-    <item>
-      <title>About</title>
-      <link>https://www.cedarbaum.io/about/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://www.cedarbaum.io/about/</guid>
-      <description>I am a software engineer. You can reach me at the below places:
- Email: sam@{this web site} GitHub  </description>
     </item>
     
   </channel>
