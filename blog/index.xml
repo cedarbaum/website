@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>About on Hi, I am Sam.</title>
-    <link>https://www.cedarbaum.io/</link>
-    <description>Recent content in About on Hi, I am Sam.</description>
+    <title>Blogs on Hi, I am Sam.</title>
+    <link>https://www.cedarbaum.io/blog/</link>
+    <description>Recent content in Blogs on Hi, I am Sam.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Built with &lt;a href=&#39;https://gohugo.io/&#39; class=&#39;link black-40&#39;&gt;Hugo&lt;/a&gt; and &lt;a href=&#39;https://ox-hugo.scripter.co/&#39; class=&#39;link black-40&#39;&gt;ox-hugo&lt;/a&gt;.</copyright>
-    <lastBuildDate>Fri, 26 Mar 2021 19:27:29 -0700</lastBuildDate><atom:link href="https://www.cedarbaum.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 03 Feb 2021 00:00:00 -0800</lastBuildDate><atom:link href="https://www.cedarbaum.io/blog/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Keeping track of movies with Emacs and Org mode</title>
       <link>https://www.cedarbaum.io/blog/movies-org/</link>
