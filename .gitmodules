@@ -4,3 +4,6 @@
 [submodule "website-content"]
 	path = website-content
 	url = git@github.com:cedarbaum/website-content.git
+[submodule "themes/hugo-theme-codex"]
+	path = themes/hugo-theme-codex
+	url = https://github.com/jakewies/hugo-theme-codex.git
