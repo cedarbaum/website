@@ -10,6 +10,12 @@
     text-indent: 5px;
 }
 
+.post {
+    width: 100%;
+    max-width: 50rem;
+    margin: 0 auto;
+}
+
 @keyframes backgroundColorPalette {
     0% {
         color: #ee6055;
