@@ -16,6 +16,10 @@
     margin: 0 auto;
 }
 
+img {
+    max-width: 100% !important;
+}
+
 @keyframes backgroundColorPalette {
     0% {
         color: #ee6055;
