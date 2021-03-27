@@ -6,6 +6,6 @@
     <description>Recent content in Tags on Hi, I am Sam.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <copyright>Built with &lt;a href=&#39;https://gohugo.io/&#39; class=&#39;link black-40&#39;&gt;Hugo&lt;/a&gt; and &lt;a href=&#39;https://ox-hugo.scripter.co/&#39; class=&#39;link black-40&#39;&gt;ox-hugo&lt;/a&gt;.</copyright><atom:link href="https://www.cedarbaum.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <copyright>© {year}</copyright><atom:link href="https://www.cedarbaum.io/tags/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>
