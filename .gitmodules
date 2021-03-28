@@ -6,4 +6,5 @@
 	url = git@github.com:cedarbaum/website-content.git
 [submodule "themes/hugo-theme-codex"]
 	path = themes/hugo-theme-codex
-	url = https://github.com/jakewies/hugo-theme-codex.git
+	url = git@github.com:cedarbaum/hugo-theme-codex.git
+	branch = game-of-life

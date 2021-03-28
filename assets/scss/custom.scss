@@ -10,38 +10,32 @@
     text-indent: 5px;
 }
 
-.post {
-    width: 100%;
-    max-width: 50rem;
-    margin: 0 auto;
-}
-
-img {
-    max-width: 100% !important;
-}
-
-@keyframes backgroundColorPalette {
-    0% {
-        color: #ee6055;
-    }
-    25% {
-        color: #60d394;
-    }
-    50% {
-        color: #aaf683;
-    }
-    75% {
-        color: #ffd97d;
-    }
-    100% {
-        color: #ff9b85;
-    }
-}
-
 .fancy {
-    color: #ee6055;
-    animation-name: backgroundColorPalette;
-    animation-duration: 10s;
-    animation-iteration-count: infinite;
-    animation-direction: alternate;
+    color: black;
 }
+
+// @keyframes backgroundColorPalette {
+//     0% {
+//         color: #ee6055;
+//     }
+//     25% {
+//         color: #60d394;
+//     }
+//     50% {
+//         color: #aaf683;
+//     }
+//     75% {
+//         color: #ffd97d;
+//     }
+//     100% {
+//         color: #ff9b85;
+//     }
+// }
+
+// .fancy {
+//     color: #ee6055;
+//     animation-name: backgroundColorPalette;
+//     animation-duration: 10s;
+//     animation-iteration-count: infinite;
+//     animation-direction: alternate;
+// }
