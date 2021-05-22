@@ -7,11 +7,11 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>© {year}</copyright>
-    <lastBuildDate>Wed, 03 Feb 2021 00:00:00 -0800</lastBuildDate><atom:link href="https://www.cedarbaum.io/blog/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 03 Feb 2021 00:00:00 -0500</lastBuildDate><atom:link href="https://www.cedarbaum.io/blog/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Keeping track of movies with Emacs and Org mode</title>
       <link>https://www.cedarbaum.io/blog/movies-org/</link>
-      <pubDate>Wed, 03 Feb 2021 00:00:00 -0800</pubDate>
+      <pubDate>Wed, 03 Feb 2021 00:00:00 -0500</pubDate>
       
       <guid>https://www.cedarbaum.io/blog/movies-org/</guid>
       <description>Introduction A while back, I decided to start cataloging the movies I&amp;rsquo;ve seen. This started as a simple table in Emacs Org mode. Below is an example of the table&amp;rsquo;s structure:
