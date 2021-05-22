@@ -64,3 +64,9 @@ enableEmoji = true# Add your Disqus shortname here.
   name = "blog"
   title = "Blog"
   url = "/blog"
+
+[[menu.main]]
+  identifier = "diet-coke"
+  name = "🥤"
+  title = "Diet Coke Reviews"
+  url = "/diet-coke"
