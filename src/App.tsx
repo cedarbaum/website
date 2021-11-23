@@ -37,7 +37,7 @@ function App() {
             <FullScreenCanvas ref={canvasRef} onClick={e => gol.current ? gol.current.gameOnClick(e) : undefined} />
             <Container>
                 <AboutCard>
-                    <ContactSpan>@cedarbaum</ContactSpan>
+                    <ContactSpan href={"https://www.github.com/cedarbaum"} target={"_blank"}>@cedarbaum</ContactSpan>
                 </AboutCard>
             </Container>
         </>
@@ -58,11 +58,13 @@ const AboutCard = styled.div({
     zIndex: 100
 })
 
-const ContactSpan = styled.span({
+const ContactSpan = styled.a({
     fontSize: '3em',
     '@media (min-width: 720px)': {
         fontSize: '5em'
     },
+    color: 'black',
+    textDecoration: 'none'
 })
 
 const FullScreenCanvas = styled.canvas({
