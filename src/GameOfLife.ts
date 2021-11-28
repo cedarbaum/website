@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 // Code based on https://css-tricks.com/game-life/
 
 interface Cfg {
@@ -45,11 +46,12 @@ export class GameOfLife {
 
   resizeBoardAndRedraw(): void {
     const { width, height } = this.canvas!.getBoundingClientRect();
-    var numX = Math.ceil(width / this.cfg.cellSize) + 2 * this.cfg.margin;
-    var numY = Math.ceil(height / this.cfg.cellSize) + 2 * this.cfg.margin;
+    const numX = Math.ceil(width / this.cfg.cellSize) + 2 * this.cfg.margin;
+    const numY = Math.ceil(height / this.cfg.cellSize) + 2 * this.cfg.margin;
 
     if (this.matrix == undefined) {
       this.matrix = new Array(numX);
+      // eslint-disable-next-line no-var
       for (var x = 0; x < this.matrix.length; x++) {
         this.matrix[x] = new Array(numY);
       }
@@ -58,13 +60,15 @@ export class GameOfLife {
       return;
     }
 
-    var newMatrix = new Array(numX);
+    const newMatrix = new Array(numX);
+    // eslint-disable-next-line no-var
     for (var x = 0; x < newMatrix.length; x++) {
       newMatrix[x] = new Array(numY);
     }
 
+    // eslint-disable-next-line no-var
     for (var x = 0; x < this.matrix.length; x++) {
-      for (var y = 0; y < this.matrix[x].length; y++) {
+      for (let y = 0; y < this.matrix[x].length; y++) {
         if (x < newMatrix.length && y < newMatrix[x].length) {
           newMatrix[x][y] = this.matrix![x][y];
         }
@@ -76,7 +80,7 @@ export class GameOfLife {
   }
 
   draw(): void {
-    var x, y;
+    let x, y;
 
     const { width, height } = this.canvas!.getBoundingClientRect();
     this.canvas!.width = width;
@@ -104,8 +108,8 @@ export class GameOfLife {
     for (x = this.cfg.margin; x < this.matrix.length; x++) {
       for (y = this.cfg.margin; y < this.matrix[x].length; y++) {
         if (this.matrix[x][y]) {
-          var adjX = x - this.cfg.margin;
-          var adjY = y - this.cfg.margin;
+          const adjX = x - this.cfg.margin;
+          const adjY = y - this.cfg.margin;
           this.ctx!.fillRect(
             adjX * this.cfg.cellSize + 1,
             adjY * this.cfg.cellSize + 1,
@@ -119,8 +123,8 @@ export class GameOfLife {
 
   step(): void {
     // initalize buffer
-    var x, y;
-    var buffer = new Array(this.matrix!.length);
+    let x, y;
+    const buffer = new Array(this.matrix!.length);
     for (x = 0; x < buffer.length; x++) {
       buffer[x] = new Array(this.matrix![x].length);
     }
@@ -129,7 +133,7 @@ export class GameOfLife {
     for (x = 0; x < this.matrix!.length; x++) {
       for (y = 0; y < this.matrix![x].length; y++) {
         // count neighbours
-        var neighbours = this.countNeighbours(x, y);
+        const neighbours = this.countNeighbours(x, y);
 
         // use rules
         if (this.matrix![x][y]) {
@@ -148,10 +152,10 @@ export class GameOfLife {
   }
 
   countNeighbours(cx: number, cy: number): number {
-    var count = 0;
+    let count = 0;
 
-    for (var x = cx - 1; x <= cx + 1; x++) {
-      for (var y = cy - 1; y <= cy + 1; y++) {
+    for (let x = cx - 1; x <= cx + 1; x++) {
+      for (let y = cy - 1; y <= cy + 1; y++) {
         if (x == cx && y == cy) continue;
         if (
           x < 0 ||
@@ -168,8 +172,8 @@ export class GameOfLife {
   }
 
   clear(): void {
-    for (var x = 0; x < this.matrix!.length; x++) {
-      for (var y = 0; y < this.matrix![x].length; y++) {
+    for (let x = 0; x < this.matrix!.length; x++) {
+      for (let y = 0; y < this.matrix![x].length; y++) {
         this.matrix![x][y] = false;
       }
     }
@@ -178,8 +182,8 @@ export class GameOfLife {
   }
 
   randomize(): void {
-    for (var x = 0; x < this.matrix!.length; x++) {
-      for (var y = 0; y < this.matrix![x].length; y++) {
+    for (let x = 0; x < this.matrix!.length; x++) {
+      for (let y = 0; y < this.matrix![x].length; y++) {
         this.matrix![x][y] = Math.random() < 0.2;
       }
     }
@@ -188,15 +192,15 @@ export class GameOfLife {
   }
 
   spawnRandGlider(): void {
-    var spawnLoc = GameOfLife.getRandomInt(0, 3);
-    var widthViewport = this.matrix!.length - 2 * this.cfg.margin;
-    var heightViewport = this.matrix![0].length - 2 * this.cfg.margin;
-    var bottomRow = this.cfg.margin + heightViewport;
-    var rightMostCol = this.cfg.margin + widthViewport;
+    const spawnLoc = GameOfLife.getRandomInt(0, 3);
+    const widthViewport = this.matrix!.length - 2 * this.cfg.margin;
+    const heightViewport = this.matrix![0].length - 2 * this.cfg.margin;
+    const bottomRow = this.cfg.margin + heightViewport;
+    const rightMostCol = this.cfg.margin + widthViewport;
 
     if (this.firstSpawn) {
-      var x = Math.ceil(this.cfg.margin - 3);
-      var y = Math.ceil(this.cfg.margin + heightViewport / 2);
+      const x = Math.ceil(this.cfg.margin - 3);
+      const y = Math.ceil(this.cfg.margin + heightViewport / 2);
       this.drawURGlider(x, y);
 
       this.firstSpawn = false;
@@ -205,17 +209,17 @@ export class GameOfLife {
 
     if (spawnLoc == 0) {
       // Top
-      var xCenter = GameOfLife.getRandomInt(
+      const xCenter = GameOfLife.getRandomInt(
         this.cfg.margin,
         this.matrix!.length - 3
       );
-      var yCenter = GameOfLife.getRandomInt(3, this.cfg.margin - 3);
+      const yCenter = GameOfLife.getRandomInt(3, this.cfg.margin - 3);
 
       this.drawLRGlider(xCenter, yCenter);
     } else if (spawnLoc == 1) {
       // Left
-      var xCenter = GameOfLife.getRandomInt(3, this.cfg.margin - 3);
-      var yCenter = GameOfLife.getRandomInt(
+      const xCenter = GameOfLife.getRandomInt(3, this.cfg.margin - 3);
+      const yCenter = GameOfLife.getRandomInt(
         this.cfg.margin,
         this.matrix![0].length - 3
       );
@@ -223,11 +227,11 @@ export class GameOfLife {
       this.drawURGlider(xCenter, yCenter);
     } else if (spawnLoc == 2) {
       // Bottom
-      var xCenter = GameOfLife.getRandomInt(
+      const xCenter = GameOfLife.getRandomInt(
         this.cfg.margin,
         this.matrix!.length - 3
       );
-      var yCenter = GameOfLife.getRandomInt(
+      const yCenter = GameOfLife.getRandomInt(
         bottomRow,
         bottomRow + this.cfg.margin - 3
       );
@@ -235,11 +239,11 @@ export class GameOfLife {
       this.drawULGlider(xCenter, yCenter);
     } else {
       // Right
-      var xCenter = GameOfLife.getRandomInt(
+      const xCenter = GameOfLife.getRandomInt(
         rightMostCol,
         rightMostCol + this.cfg.margin - 3
       );
-      var yCenter = GameOfLife.getRandomInt(
+      const yCenter = GameOfLife.getRandomInt(
         this.cfg.margin,
         this.matrix![0].length - 3
       );
@@ -248,6 +252,7 @@ export class GameOfLife {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   drawLRGlider(xCenter: number, yCenter: number) {
     this.matrix![xCenter][yCenter] = false;
     this.matrix![xCenter - 1][yCenter - 1] = false;
@@ -314,6 +319,7 @@ export class GameOfLife {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   animateStep() {
     const secondsSinceEpoch = Math.round(Date.now() / 1000);
     if (
@@ -331,9 +337,10 @@ export class GameOfLife {
     this.step();
   }
 
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   gameOnClick(e: React.MouseEvent<HTMLCanvasElement, MouseEvent>) {
-    var x;
-    var y;
+    let x;
+    let y;
 
     if (e.pageX !== undefined && e.pageY !== undefined) {
       x = e.pageX;
