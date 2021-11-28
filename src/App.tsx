@@ -116,7 +116,10 @@ const AboutCard = styled.div({
 const PlainText = styled.div({
     whiteSpace: 'nowrap',
     position: 'static',
-    fontSize: '3em',
+    fontSize: '2em',
+    '@media (min-width: 480px)': {
+        fontSize: '3em'
+    },
     '@media (min-width: 720px)': {
         fontSize: '5em'
     },
