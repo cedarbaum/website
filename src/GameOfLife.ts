@@ -15,13 +15,11 @@ export class GameOfLife {
   private nextGliderSpawnTime: number | undefined = undefined;
   private canvas: HTMLCanvasElement | null = null;
   private ctx: CanvasRenderingContext2D | null = null;
-  private round: number;
   private matrix: Array<Array<number | boolean>> | undefined;
   private cfg: Cfg;
 
   constructor() {
     this.matrix = undefined;
-    this.round = 0;
 
     this.cfg = {
       cellSize: 30,
@@ -147,7 +145,6 @@ export class GameOfLife {
 
     // flip buffers
     this.matrix = buffer;
-    this.round++;
     this.draw();
   }
 
@@ -252,8 +249,7 @@ export class GameOfLife {
     }
   }
 
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  drawLRGlider(xCenter: number, yCenter: number) {
+  drawLRGlider(xCenter: number, yCenter: number): void {
     this.matrix![xCenter][yCenter] = false;
     this.matrix![xCenter - 1][yCenter - 1] = false;
     this.matrix![xCenter - 1][yCenter] = false;
@@ -319,8 +315,7 @@ export class GameOfLife {
     }
   }
 
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  animateStep() {
+  animateStep(): void {
     const secondsSinceEpoch = Math.round(Date.now() / 1000);
     if (
       this.nextFrameTime != undefined &&
@@ -337,8 +332,7 @@ export class GameOfLife {
     this.step();
   }
 
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  gameOnClick(e: React.MouseEvent<HTMLCanvasElement, MouseEvent>) {
+  gameOnClick(e: React.MouseEvent<HTMLCanvasElement, MouseEvent>): void {
     let x;
     let y;
 
@@ -375,65 +369,3 @@ export class GameOfLife {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 }
-
-
-/*
-var timer;
-var game = new Game(document.getElementById("game"));
-var nextFrameTime;
-
-function animate() {
-    if (timer === undefined) {
-        timer = setInterval(animateStep, 500);
-    } else {
-        clearInterval(timer);
-        timer = undefined;
-    }
-};
-
-function animateStep() {
-
-    const secondsSinceEpoch = Math.round(Date.now() / 1000)
-    if (nextFrameTime != undefined && secondsSinceEpoch < nextFrameTime) {
-        return;
-    }
-
-    game.step();
-}
-
-game.canvas.addEventListener("click", gameOnClick, false);
-window.addEventListener('resize', windowResize);
-
-function windowResize() {
-    game.resizeBoardAndRedraw();
-}
-
-function gameOnClick(e) {
-    var x;
-    var y;
-
-    if (e.pageX !== undefined && e.pageY !== undefined) {
-        x = e.pageX;
-        y = e.pageY;
-    } else {
-        x = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
-        y = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
-    }
-
-    x -= game.canvas.offsetLeft;
-    y -= game.canvas.offsetTop;
-
-    x = Math.floor(x / game.cfg.cellSize);
-    y = Math.floor(y / game.cfg.cellSize);
-
-    game.toggleCell(x, y);
-
-    // Give user 2 seconds to toggle additional cells
-    const secondsSinceEpoch = Math.round(Date.now() / 1000)
-    nextFrameTime = secondsSinceEpoch + 2;
-}
-
-
-game.randomize();
-animate();
-*/

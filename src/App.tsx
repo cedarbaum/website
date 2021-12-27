@@ -11,7 +11,7 @@ interface AnnotationProps {
     color: string
 }
 
-const colors = [
+const COLORS = [
     '#B983FF',
     '#94B3FD',
     '#94DAFF'
@@ -58,33 +58,33 @@ function App() {
                         <Word>cedarbaum.io</Word>
                     </PlainText>
                     <AnnotatedSet>
-                        <Word>sam<AnnotationBeginning color={colors[0]} level={0}/></Word>
-                        <Word>@<Annotation color={colors[0]} level={0}/></Word>
-                        <Word>cedarbaum<Annotation color={colors[0]} level={0}/></Word>
-                        <Word>.io<AnnotationEnd color={colors[0]} level={0}/></Word>
+                        <Word>sam<AnnotationBeginning color={COLORS[0]} level={0}/></Word>
+                        <Word>@<Annotation color={COLORS[0]} level={0}/></Word>
+                        <Word>cedarbaum<Annotation color={COLORS[0]} level={0}/></Word>
+                        <Word>.io<AnnotationEnd color={COLORS[0]} level={0}/></Word>
                     </AnnotatedSet>
                     <AnnotatedSet>
                         <Word>sam</Word>
-                        <Word>@<AnnotationBeginning color={colors[1]} level={1}/></Word>
-                        <Word>cedarbaum<AnnotationEnd color={colors[1]} level={1}/></Word>
+                        <Word>@<AnnotationBeginning color={COLORS[1]} level={1}/></Word>
+                        <Word>cedarbaum<AnnotationEnd color={COLORS[1]} level={1}/></Word>
                         <Word>.io</Word>
                     </AnnotatedSet>
                     <AnnotatedSet>
                         <Word>sam</Word>
                         <Word>@</Word>
-                        <Word>cedarbaum<AnnotationBeginning color={colors[2]} level={2} /></Word>
-                        <Word>.io<AnnotationEnd color={colors[2]} level={2} /></Word>
+                        <Word>cedarbaum<AnnotationBeginning color={COLORS[2]} level={2} /></Word>
+                        <Word>.io<AnnotationEnd color={COLORS[2]} level={2} /></Word>
                     </AnnotatedSet>
                     <IconContainer>
                         <a href={"mailto:sam@cedarbaum.io"}>
-                            <FontAwesomeIcon icon={faEnvelope} size={'2x'} color={colors[0]} />
+                            <FontAwesomeIcon icon={faEnvelope} size={'2x'} color={COLORS[0]} />
 
                         </a>
                         <a href={"https://github.com/cedarbaum"} target="_blank" rel="noreferrer">
-                            <FontAwesomeIcon icon={faGithub} size={'2x'} color={colors[1]} />
+                            <FontAwesomeIcon icon={faGithub} size={'2x'} color={COLORS[1]} />
                         </a>
                         <a href={"https://cedarbaum.io"} target="_blank" rel="noreferrer">
-                            <FontAwesomeIcon icon={faGlobe} size={'2x'} color={colors[2]} />
+                            <FontAwesomeIcon icon={faGlobe} size={'2x'} color={COLORS[2]} />
                         </a>
                     </IconContainer>
                 </AboutCard>
@@ -107,10 +107,7 @@ const AboutCard = styled.div({
     zIndex: 100,
     borderRadius: '5px',
     backgroundColor: 'white',
-    '@supports (backdropFilter: blur(20px))': {
-        backgroundColor: 'rgba(255, 255, 255, .15)',
-        backdropFilter: 'blur(20px)',
-    }
+    boxShadow: '0px 0px 8px 1px rgb(0 0 255 / 20%)',
 })
 
 const PlainText = styled.div({
@@ -118,7 +115,7 @@ const PlainText = styled.div({
     position: 'static',
     fontSize: '2em',
     '@media (min-width: 480px)': {
-        fontSize: '3em'
+        fontSize: '5em'
     },
     '@media (min-width: 720px)': {
         fontSize: '5em'
