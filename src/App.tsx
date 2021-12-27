@@ -114,10 +114,10 @@ const PlainText = styled.div({
     whiteSpace: 'nowrap',
     position: 'static',
     fontSize: '2em',
-    '@media (min-width: 480px)': {
-        fontSize: '5em'
-    },
     '@media (min-width: 720px)': {
+        fontSize: '4em'
+    },
+    '@media (min-width: 1024px)': {
         fontSize: '5em'
     },
     color: 'black',
