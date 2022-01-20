@@ -58,15 +58,15 @@ function App() {
                         <Word>cedarbaum.io</Word>
                     </PlainText>
                     <AnnotatedSet>
-                        <Word>sam<AnnotationBeginning color={COLORS[0]} level={0}/></Word>
-                        <Word>@<Annotation color={COLORS[0]} level={0}/></Word>
-                        <Word>cedarbaum<Annotation color={COLORS[0]} level={0}/></Word>
-                        <Word>.io<AnnotationEnd color={COLORS[0]} level={0}/></Word>
+                        <Word>sam<AnnotationBeginning color={COLORS[0]} level={0} /></Word>
+                        <Word>@<Annotation color={COLORS[0]} level={0} /></Word>
+                        <Word>cedarbaum<Annotation color={COLORS[0]} level={0} /></Word>
+                        <Word>.io<AnnotationEnd color={COLORS[0]} level={0} /></Word>
                     </AnnotatedSet>
                     <AnnotatedSet>
                         <Word>sam</Word>
-                        <Word>@<AnnotationBeginning color={COLORS[1]} level={1}/></Word>
-                        <Word>cedarbaum<AnnotationEnd color={COLORS[1]} level={1}/></Word>
+                        <Word>@<AnnotationBeginning color={COLORS[1]} level={1} /></Word>
+                        <Word>cedarbaum<AnnotationEnd color={COLORS[1]} level={1} /></Word>
                         <Word>.io</Word>
                     </AnnotatedSet>
                     <AnnotatedSet>
@@ -103,7 +103,10 @@ const Container = styled.div({
 
 const AboutCard = styled.div({
     position: 'relative',
-    padding: '48px',
+    padding: '38px',
+    '@media (min-width: 720px)': {
+        padding: '48px',
+    },
     zIndex: 100,
     borderRadius: '5px',
     backgroundColor: 'white',
@@ -147,7 +150,7 @@ const Annotation = styled.div<AnnotationProps>(props => ({
 }))
 
 const AnnotationBeginning = styled(Annotation)({
-    left: 0 ,
+    left: 0,
     width: 'calc(~"100% + 0.25rem")',
 })
 
