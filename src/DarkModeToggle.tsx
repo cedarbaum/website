@@ -14,7 +14,7 @@ interface BallProps {
 }
 
 // Based on: https://codepen.io/FlorinPop17/pen/XWWZYYG
-export const DarkModeToggle = (props: DarkModeToggleProps) => {
+export const DarkModeToggle: React.FC<DarkModeToggleProps> = (props) => {
 
     const [isSelected, setIsSelected] = useState(props.toggled)
     const checked = props.toggled !== undefined ? props.toggled : isSelected
