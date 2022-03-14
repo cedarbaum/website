@@ -12,10 +12,11 @@ jobs:
       - name: Git clone the repository
         uses: actions/checkout@v2
         
-      - name: Configure Git identity
+      - name: Configure Git
         run: |
           git config --global user.name 'GitHub Actions'
           git config --global user.email 'cedarbaum@users.noreply.github.com'
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
 
       - uses: actions/setup-node@v2
         with:
