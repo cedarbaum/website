@@ -11,8 +11,11 @@ jobs:
     steps:
       - name: Git clone the repository
         uses: actions/checkout@v1
-      - run: git config --global user.email "sam@cedarbaum.io"
-      - run: git config --global user.name "GitHub Actions runner"
+        
+      - name: Configure Git identity
+        run: |
+          git config --global user.name 'GitHub Actions'
+          git config --global user.email 'cedarbaum@users.noreply.github.com'
 
       - uses: actions/setup-node@v2
         with:
