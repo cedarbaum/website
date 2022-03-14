@@ -1,14 +1,20 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { GameOfLife } from './GameOfLife';
 import '@emotion/styled'
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import { faEnvelope, faGlobe } from '@fortawesome/free-solid-svg-icons'
+import { DarkModeToggle } from './DarkModeToggle';
+import { usePrefersColorScheme } from '@anatoliygatt/use-prefers-color-scheme';
 
 interface AnnotationProps {
     level: number,
     color: string
+}
+
+interface ThemeProps {
+    isDarkMode?: boolean
 }
 
 const COLORS = [
@@ -26,8 +32,13 @@ function App() {
         }
     }, []);
 
+    const preferredColorScheme = usePrefersColorScheme();
+    const [darkModeToggled, setDarkModeToggled] = useState<boolean | undefined>(undefined)
+    const isDarkColorSchemePreferred = ((preferredColorScheme === 'dark' && (darkModeToggled === undefined || darkModeToggled)) || darkModeToggled)
+    const golEnabled = !isDarkColorSchemePreferred
+
     useEffect(() => {
-        if (gol.current && gol.current.isInitialized()) {
+        if (golEnabled && gol.current && gol.current.isInitialized()) {
             gol.current.resizeBoardAndRedraw();
 
             const handleResize = () => {
@@ -49,10 +60,13 @@ function App() {
 
     return (
         <>
-            <FullScreenCanvas ref={canvasRef} onClick={e => gol.current && gol.current.isInitialized() ? gol.current.gameOnClick(e) : undefined} />
-            <Container>
-                <AboutCard>
-                    <PlainText>
+            <DarkModeToggleContainer>
+                <DarkModeToggle toggled={isDarkColorSchemePreferred} onToggle={(enabled) => setDarkModeToggled(enabled)} />
+            </DarkModeToggleContainer>
+            {golEnabled && <FullScreenCanvas ref={canvasRef} onClick={e => gol.current && gol.current.isInitialized() ? gol.current.gameOnClick(e) : undefined} />}
+            <Container isDarkMode={isDarkColorSchemePreferred}>
+                <AboutCard isDarkMode={isDarkColorSchemePreferred}>
+                    <PlainText isDarkMode={isDarkColorSchemePreferred}>
                         <Word>sam</Word>
                         <Word>@</Word>
                         <Word>cedarbaum.io</Word>
@@ -93,15 +107,16 @@ function App() {
     );
 }
 
-const Container = styled.div({
+const Container = styled.div<ThemeProps>(props => ({
     width: '100%',
     height: '100vh',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-})
+    backgroundColor: props.isDarkMode ? 'black' : 'white'
+}))
 
-const AboutCard = styled.div({
+const AboutCard = styled.div<ThemeProps>(props => ({
     position: 'relative',
     padding: '38px',
     '@media (min-width: 720px)': {
@@ -109,11 +124,13 @@ const AboutCard = styled.div({
     },
     zIndex: 100,
     borderRadius: '5px',
-    backgroundColor: 'white',
-    boxShadow: '0px 0px 8px 1px rgb(0 0 255 / 20%)',
-})
+    backgroundColor: props.isDarkMode ? 'black' : 'white',
+    ...!props.isDarkMode && {
+        boxShadow: '0px 0px 8px 1px rgb(0 0 255 / 20%)',
+    }
+}))
 
-const PlainText = styled.div({
+const PlainText = styled.div<ThemeProps>(props => ({
     whiteSpace: 'nowrap',
     position: 'static',
     fontSize: '2em',
@@ -123,10 +140,10 @@ const PlainText = styled.div({
     '@media (min-width: 1024px)': {
         fontSize: '5em'
     },
-    color: 'black',
+    color: props.isDarkMode ? 'white' : 'black',
     textDecoration: 'none',
     zIndex: 1
-})
+}))
 
 const AnnotatedSet = styled(PlainText)({
     top: '48px',
@@ -171,5 +188,14 @@ const FullScreenCanvas = styled.canvas({
     width: '100%',
     height: '100%'
 })
+
+
+const DarkModeToggleContainer = styled.div({
+    position: 'fixed',
+    right: 0,
+    margin: '2.5em',
+    zIndex: 1000
+})
+
 
 export default App;
