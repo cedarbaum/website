@@ -11,6 +11,8 @@ jobs:
     steps:
       - name: Git clone the repository
         uses: actions/checkout@v1
+      - run: git config --global user.email "sam@cedarbaum.io"
+      - run: git config --global user.name "GitHub Actions runner"
 
       - uses: actions/setup-node@v2
         with:
