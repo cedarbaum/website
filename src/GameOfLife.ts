@@ -2,10 +2,10 @@
 // Code based on https://css-tricks.com/game-life/
 
 interface Cfg {
-    cellSize: number,
-    gridColor: string,
-    cellColor: string,
-    margin: number
+  cellSize: number;
+  gridColor: string;
+  cellColor: string;
+  margin: number;
 }
 
 export class GameOfLife {
