@@ -9,7 +9,7 @@ import { DarkModeToggle } from "./DarkModeToggle";
 import { usePrefersColorScheme } from "@anatoliygatt/use-prefers-color-scheme";
 
 interface AnnotationProps {
-  level: number;
+  top?: number | string;
   color: string;
 }
 
@@ -24,6 +24,12 @@ enum Icon {
   Email,
   GitHub,
   Website,
+}
+
+const IconToLevelMap: Record<Icon, number> = {
+  [Icon.Email]: 0,
+  [Icon.GitHub]: 1,
+  [Icon.Website]: 2,
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -53,6 +59,20 @@ function App() {
     }
 
     return 0.25;
+  }
+
+  function getTop(icon: Icon): number | string {
+    if (icon === hoverIcon) {
+      return '0.5rem';
+    }
+
+    const level = IconToLevelMap[icon];
+    if (hoverIcon !== undefined && level < IconToLevelMap[hoverIcon]) {
+      return `${0.5 + 0.9 * (level + 1)}rem`
+
+    }
+
+    return `${0.5 + 0.9 * level}rem`
   }
 
   useEffect(() => {
@@ -104,28 +124,28 @@ function App() {
           <AnnotatedSet opacity={getOpacity(Icon.Email)}>
             <Word>
               sam
-              <AnnotationBeginning color={COLORS[0]} level={0} />
+              <AnnotationBeginning color={COLORS[0]} top={getTop(Icon.Email)} />
             </Word>
             <Word>
-              @<Annotation color={COLORS[0]} level={0} />
+              @<Annotation color={COLORS[0]} top={getTop(Icon.Email)} />
             </Word>
             <Word>
               cedarbaum
-              <Annotation color={COLORS[0]} level={0} />
+              <Annotation color={COLORS[0]} top={getTop(Icon.Email)} />
             </Word>
             <Word>
               .io
-              <AnnotationEnd color={COLORS[0]} level={0} />
+              <AnnotationEnd color={COLORS[0]} top={getTop(Icon.Email)} />
             </Word>
           </AnnotatedSet>
           <AnnotatedSet opacity={getOpacity(Icon.GitHub)}>
             <Word>sam</Word>
             <Word>
-              @<AnnotationBeginning color={COLORS[1]} level={1} />
+              @<AnnotationBeginning color={COLORS[1]} top={getTop(Icon.GitHub)} />
             </Word>
             <Word>
               cedarbaum
-              <AnnotationEnd color={COLORS[1]} level={1} />
+              <AnnotationEnd color={COLORS[1]} top={getTop(Icon.GitHub)} />
             </Word>
             <Word>.io</Word>
           </AnnotatedSet>
@@ -134,11 +154,11 @@ function App() {
             <Word>@</Word>
             <Word>
               cedarbaum
-              <AnnotationBeginning color={COLORS[2]} level={2} />
+              <AnnotationBeginning color={COLORS[2]} top={getTop(Icon.Website)} />
             </Word>
             <Word>
               .io
-              <AnnotationEnd color={COLORS[2]} level={2} />
+              <AnnotationEnd color={COLORS[2]} top={getTop(Icon.Website)} />
             </Word>
           </AnnotatedSet>
           <IconContainer>
@@ -236,8 +256,9 @@ const Annotation = styled.div<AnnotationProps>((props) => ({
   backgroundColor: props.color,
   width: 'calc(~"100% + 0.5rem")',
   height: "0.5rem",
-  top: `${0.5 + 0.9 * props.level}rem`,
+  top: props.top,
   left: "-0.25rem",
+  transition: 'top 0.5s',
 }));
 
 const AnnotationBeginning = styled(Annotation)({
