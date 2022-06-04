@@ -55,7 +55,8 @@ function App() {
     (preferredColorScheme === "dark" &&
       (darkModeToggled === undefined || darkModeToggled)) ||
     darkModeToggled;
-  const golEnabled = !isDarkColorSchemePreferred;
+  // const golEnabled = !isDarkColorSchemePreferred;
+  const golEnabled = false;
 
   function getOpacity(icon: Icon): number {
     if (hoverIcon === undefined || icon === hoverIcon) {
