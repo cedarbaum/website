@@ -18,6 +18,10 @@ interface ThemeProps {
   isDarkMode?: boolean;
 }
 
+interface WordProps {
+  opacity?: number;
+}
+
 const COLORS = ["#B983FF", "#94B3FD", "#94DAFF"];
 
 enum Icon {
@@ -30,7 +34,7 @@ const IconToLevelMap: Record<Icon, number> = {
   [Icon.Email]: 0,
   [Icon.GitHub]: 1,
   [Icon.Website]: 2,
-}
+};
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 function App() {
@@ -61,18 +65,62 @@ function App() {
     return 0.25;
   }
 
+  function getOpacityAt(): number {
+    if (
+      hoverIcon === undefined ||
+      Icon.Email === hoverIcon ||
+      Icon.GitHub === hoverIcon
+    ) {
+      return 1.0;
+    }
+
+    return 0.25;
+  }
+
+  function getOpacitySam(): number {
+    if (hoverIcon === undefined || Icon.Email === hoverIcon) {
+      return 1.0;
+    }
+
+    return 0.25;
+  }
+
+  function getOpacityCedarbaum(): number {
+    if (
+      hoverIcon === undefined ||
+      Icon.Email === hoverIcon ||
+      Icon.Website === hoverIcon ||
+      Icon.GitHub === hoverIcon
+    ) {
+      return 1.0;
+    }
+
+    return 0.25;
+  }
+
+  function getOpacityIo(): number {
+    if (
+      hoverIcon === undefined ||
+      Icon.Website === hoverIcon ||
+      Icon.Email === hoverIcon
+    ) {
+      return 1.0;
+    }
+
+    return 0.25;
+  }
+
   function getTop(icon: Icon): number | string {
     if (icon === hoverIcon) {
-      return '0.5rem';
+      return "0.5rem";
     }
 
     const level = IconToLevelMap[icon];
     if (hoverIcon !== undefined && level < IconToLevelMap[hoverIcon]) {
-      return `${0.5 + 0.9 * (level + 1)}rem`
-
+      return `${0.5 + 0.9 * (level + 1)}rem`;
     }
 
-    return `${0.5 + 0.9 * level}rem`
+    return `${0.5 + 0.9 * level}rem`;
   }
 
   useEffect(() => {
@@ -117,9 +165,10 @@ function App() {
       <Container isDarkMode={isDarkColorSchemePreferred}>
         <AboutCard isDarkMode={isDarkColorSchemePreferred}>
           <PlainText isDarkMode={isDarkColorSchemePreferred}>
-            <Word>sam</Word>
-            <Word>@</Word>
-            <Word>cedarbaum.io</Word>
+            <Word opacity={getOpacitySam()}>sam</Word>
+            <Word opacity={getOpacityAt()}>@</Word>
+            <Word opacity={getOpacityCedarbaum()}>cedarbaum</Word>
+            <Word opacity={getOpacityIo()}>.io</Word>
           </PlainText>
           <AnnotatedSet opacity={getOpacity(Icon.Email)}>
             <Word>
@@ -141,7 +190,11 @@ function App() {
           <AnnotatedSet opacity={getOpacity(Icon.GitHub)}>
             <Word>sam</Word>
             <Word>
-              @<AnnotationBeginning color={COLORS[1]} top={getTop(Icon.GitHub)} />
+              @
+              <AnnotationBeginning
+                color={COLORS[1]}
+                top={getTop(Icon.GitHub)}
+              />
             </Word>
             <Word>
               cedarbaum
@@ -154,7 +207,10 @@ function App() {
             <Word>@</Word>
             <Word>
               cedarbaum
-              <AnnotationBeginning color={COLORS[2]} top={getTop(Icon.Website)} />
+              <AnnotationBeginning
+                color={COLORS[2]}
+                top={getTop(Icon.Website)}
+              />
             </Word>
             <Word>
               .io
@@ -246,9 +302,12 @@ const AnnotatedSet = styled(PlainText)({
   visibility: "hidden",
 });
 
-const Word = styled.div({
+const Word = styled.div<WordProps>((props) => ({
   display: "inline-block",
-});
+  opacity: props.opacity ? props.opacity : 1.0,
+  transition: "opacity 0.5s",
+  transitionTimingFunction: "ease-in",
+}));
 
 const Annotation = styled.div<AnnotationProps>((props) => ({
   visibility: "visible",
@@ -258,7 +317,7 @@ const Annotation = styled.div<AnnotationProps>((props) => ({
   height: "0.5rem",
   top: props.top,
   left: "-0.25rem",
-  transition: 'top 0.5s',
+  transition: "top 0.5s",
 }));
 
 const AnnotationBeginning = styled(Annotation)({
