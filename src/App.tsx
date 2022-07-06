@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import "@emotion/styled";
 import styled from "@emotion/styled";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -21,13 +21,12 @@ interface WordProps {
   opacity?: number;
 }
 
-
 // From: https://colorhunt.co
 const COLOR_SCHEMES = [
   ["#4D77FF", "#56BBF1", "#5EE6EB"],
   ["#00FFAB", "#14C38E", "#B8F1B0"],
   ["#4700D8", "#9900F0", "#F900BF"],
-  ["#F7FD04", "#F9B208", "#F98404"]
+  ["#F7FD04", "#F9B208", "#F98404"],
 ];
 
 enum Icon {
@@ -56,7 +55,7 @@ function App() {
       (darkModeToggled === undefined || darkModeToggled)) ||
     darkModeToggled;
 
-  const colors = COLOR_SCHEMES[colorIdx % COLOR_SCHEMES.length]
+  const colors = COLOR_SCHEMES[colorIdx % COLOR_SCHEMES.length];
 
   function getOpacity(icon: Icon): number {
     if (hoverIcon === undefined || icon === hoverIcon) {
@@ -125,13 +124,13 @@ function App() {
   }
 
   useEffect(() => {
-      const interval = setInterval(() => {
-        setColorIdx((idx) => idx + 1);
-      }, 5000);
+    const interval = setInterval(() => {
+      setColorIdx((idx) => idx + 1);
+    }, 5000);
 
-      return () => {
-        clearInterval(interval);
-      };
+    return () => {
+      clearInterval(interval);
+    };
   }, []);
 
   return (
@@ -203,11 +202,7 @@ function App() {
               onMouseOver={() => setHoverIcon(Icon.Email)}
               onMouseLeave={() => setHoverIcon(undefined)}
             >
-              <AnimatableIcon
-                icon={faEnvelope}
-                size={"2x"}
-                color={colors[0]}
-              />
+              <AnimatableIcon icon={faEnvelope} size={"2x"} color={colors[0]} />
             </a>
             <a
               href={"https://github.com/cedarbaum"}
@@ -323,6 +318,6 @@ const DarkModeToggleContainer = styled.div({
 
 const AnimatableIcon = styled(FontAwesomeIcon)({
   transition: "color 1.0s",
-})
+});
 
 export default App;
