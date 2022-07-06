@@ -26,7 +26,6 @@ const COLOR_SCHEMES = [
   ["#4D77FF", "#56BBF1", "#5EE6EB"],
   ["#00FFAB", "#14C38E", "#B8F1B0"],
   ["#4700D8", "#9900F0", "#F900BF"],
-  ["#F7FD04", "#F9B208", "#F98404"],
 ];
 
 enum Icon {
