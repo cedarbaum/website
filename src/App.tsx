@@ -4,8 +4,8 @@ import styled from "@emotion/styled";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { faEnvelope, faGlobe } from "@fortawesome/free-solid-svg-icons";
-import { DarkModeToggle } from "./DarkModeToggle";
 import { usePrefersColorScheme } from "@anatoliygatt/use-prefers-color-scheme";
+import { useWindowSize } from "rooks";
 
 interface AnnotationProps {
   top?: number | string;
@@ -20,13 +20,6 @@ interface ThemeProps {
 interface WordProps {
   opacity?: number;
 }
-
-// From: https://colorhunt.co
-const COLOR_SCHEMES = [
-  ["#4D77FF", "#56BBF1", "#5EE6EB"],
-  ["#00FFAB", "#14C38E", "#B8F1B0"],
-  ["#4700D8", "#9900F0", "#F900BF"],
-];
 
 enum Icon {
   Email,
@@ -43,18 +36,10 @@ const IconToLevelMap: Record<Icon, number> = {
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 function App() {
   const preferredColorScheme = usePrefersColorScheme();
-  const [darkModeToggled, setDarkModeToggled] = useState<boolean | undefined>(
-    undefined
-  );
   const [hoverIcon, setHoverIcon] = useState<Icon | undefined>(undefined);
-  const [colorIdx, setColorIdx] = useState<number>(0);
+  const { outerWidth } = useWindowSize();
 
-  const isDarkColorSchemePreferred =
-    (preferredColorScheme === "dark" &&
-      (darkModeToggled === undefined || darkModeToggled)) ||
-    darkModeToggled;
-
-  const colors = COLOR_SCHEMES[colorIdx % COLOR_SCHEMES.length];
+  const isDarkColorSchemePreferred = preferredColorScheme === "dark";
 
   function getOpacity(icon: Icon): number {
     if (hoverIcon === undefined || icon === hoverIcon) {
@@ -110,36 +95,24 @@ function App() {
   }
 
   function getTop(icon: Icon): number | string {
+    const baseTop = outerWidth != null && outerWidth < 768 ? -0.3 : 0;
+
     if (icon === hoverIcon) {
-      return "0.5rem";
+      return `${baseTop}rem`;
     }
 
     const level = IconToLevelMap[icon];
     if (hoverIcon !== undefined && level < IconToLevelMap[hoverIcon]) {
-      return `${0.5 + 0.9 * (level + 1)}rem`;
+      return `${baseTop + 0.9 * (level + 1)}rem`;
     }
 
-    return `${0.5 + 0.9 * level}rem`;
+    return `${baseTop + 0.9 * level}rem`;
   }
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setColorIdx((idx) => idx + 1);
-    }, 5000);
-
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
+  const fontAndIconColor = isDarkColorSchemePreferred ? "white" : "black";
 
   return (
     <>
-      <DarkModeToggleContainer>
-        <DarkModeToggle
-          toggled={isDarkColorSchemePreferred}
-          onToggle={(enabled) => setDarkModeToggled(enabled)}
-        />
-      </DarkModeToggleContainer>
       <Container isDarkMode={isDarkColorSchemePreferred}>
         <AboutCard isDarkMode={isDarkColorSchemePreferred}>
           <PlainText isDarkMode={isDarkColorSchemePreferred}>
@@ -151,18 +124,24 @@ function App() {
           <AnnotatedSet opacity={getOpacity(Icon.Email)}>
             <Word>
               sam
-              <AnnotationBeginning color={colors[0]} top={getTop(Icon.Email)} />
+              <AnnotationBeginning
+                color={fontAndIconColor}
+                top={getTop(Icon.Email)}
+              />
             </Word>
             <Word>
-              @<Annotation color={colors[0]} top={getTop(Icon.Email)} />
+              @<Annotation color={fontAndIconColor} top={getTop(Icon.Email)} />
             </Word>
             <Word>
               cedarbaum
-              <Annotation color={colors[0]} top={getTop(Icon.Email)} />
+              <Annotation color={fontAndIconColor} top={getTop(Icon.Email)} />
             </Word>
             <Word>
               .io
-              <AnnotationEnd color={colors[0]} top={getTop(Icon.Email)} />
+              <AnnotationEnd
+                color={fontAndIconColor}
+                top={getTop(Icon.Email)}
+              />
             </Word>
           </AnnotatedSet>
           <AnnotatedSet opacity={getOpacity(Icon.GitHub)}>
@@ -170,13 +149,16 @@ function App() {
             <Word>
               @
               <AnnotationBeginning
-                color={colors[1]}
+                color={fontAndIconColor}
                 top={getTop(Icon.GitHub)}
               />
             </Word>
             <Word>
               cedarbaum
-              <AnnotationEnd color={colors[1]} top={getTop(Icon.GitHub)} />
+              <AnnotationEnd
+                color={fontAndIconColor}
+                top={getTop(Icon.GitHub)}
+              />
             </Word>
             <Word>.io</Word>
           </AnnotatedSet>
@@ -186,13 +168,16 @@ function App() {
             <Word>
               cedarbaum
               <AnnotationBeginning
-                color={colors[2]}
+                color={fontAndIconColor}
                 top={getTop(Icon.Website)}
               />
             </Word>
             <Word>
               .io
-              <AnnotationEnd color={colors[2]} top={getTop(Icon.Website)} />
+              <AnnotationEnd
+                color={fontAndIconColor}
+                top={getTop(Icon.Website)}
+              />
             </Word>
           </AnnotatedSet>
           <IconContainer>
@@ -201,7 +186,11 @@ function App() {
               onMouseOver={() => setHoverIcon(Icon.Email)}
               onMouseLeave={() => setHoverIcon(undefined)}
             >
-              <AnimatableIcon icon={faEnvelope} size={"2x"} color={colors[0]} />
+              <FontAwesomeIcon
+                icon={faEnvelope}
+                size={"2x"}
+                color={fontAndIconColor}
+              />
             </a>
             <a
               href={"https://github.com/cedarbaum"}
@@ -210,7 +199,11 @@ function App() {
               onMouseOver={() => setHoverIcon(Icon.GitHub)}
               onMouseLeave={() => setHoverIcon(undefined)}
             >
-              <AnimatableIcon icon={faGithub} size={"2x"} color={colors[1]} />
+              <FontAwesomeIcon
+                icon={faGithub}
+                size={"2x"}
+                color={fontAndIconColor}
+              />
             </a>
             <a
               href={"https://cedarbaum.io"}
@@ -219,7 +212,11 @@ function App() {
               onMouseOver={() => setHoverIcon(Icon.Website)}
               onMouseLeave={() => setHoverIcon(undefined)}
             >
-              <AnimatableIcon icon={faGlobe} size={"2x"} color={colors[2]} />
+              <FontAwesomeIcon
+                icon={faGlobe}
+                size={"2x"}
+                color={fontAndIconColor}
+              />
             </a>
           </IconContainer>
         </AboutCard>
@@ -246,6 +243,7 @@ const AboutCard = styled.div<ThemeProps>((props) => ({
   zIndex: 100,
   borderRadius: "5px",
   backgroundColor: props.isDarkMode ? "black" : "white",
+  border: `solid 1px ${props.isDarkMode ? "white" : "black"}`,
 }));
 
 const PlainText = styled.div<ThemeProps>((props) => ({
@@ -288,7 +286,7 @@ const Annotation = styled.div<AnnotationProps>((props) => ({
   height: "0.5rem",
   top: props.top,
   left: "-0.25rem",
-  transition: "top 0.5s, background-color 1.0s",
+  transition: "top 0.5s",
 }));
 
 const AnnotationBeginning = styled(Annotation)({
@@ -306,17 +304,6 @@ const IconContainer = styled.div({
   paddingTop: "4.5em",
   display: "flex",
   justifyContent: "space-between",
-});
-
-const DarkModeToggleContainer = styled.div({
-  position: "fixed",
-  right: 0,
-  margin: "2.5em",
-  zIndex: 1000,
-});
-
-const AnimatableIcon = styled(FontAwesomeIcon)({
-  transition: "color 1.0s",
 });
 
 export default App;
