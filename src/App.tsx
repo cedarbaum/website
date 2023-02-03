@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "@emotion/styled";
 import styled from "@emotion/styled";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -27,6 +27,8 @@ enum Icon {
   Website,
 }
 
+const allIcons = [Icon.Email, Icon.GitHub, Icon.Website];
+
 const IconToLevelMap: Record<Icon, number> = {
   [Icon.Email]: 0,
   [Icon.GitHub]: 1,
@@ -37,12 +39,39 @@ const IconToLevelMap: Record<Icon, number> = {
 function App() {
   const preferredColorScheme = usePrefersColorScheme();
   const [hoverIcon, setHoverIcon] = useState<Icon | undefined>(undefined);
+  const [animatedHoverIconIndex, setAnimatedHoverIconIndex] = useState<
+    number | undefined
+  >(undefined);
   const { outerWidth } = useWindowSize();
+
+  useEffect(() => {
+    if (hoverIcon === undefined) {
+      const interval = setInterval(() => {
+        setAnimatedHoverIconIndex(
+          (prevValue) =>
+            (prevValue != undefined ? prevValue + 1 : 0) % allIcons.length
+        );
+      }, 3000);
+
+      return () => {
+        clearInterval(interval);
+      };
+    } else {
+      setAnimatedHoverIconIndex(undefined);
+    }
+  }, [hoverIcon, animatedHoverIconIndex]);
+
+  const focusedIcon =
+    hoverIcon != undefined
+      ? hoverIcon
+      : animatedHoverIconIndex != undefined
+      ? allIcons[animatedHoverIconIndex]
+      : undefined;
 
   const isDarkColorSchemePreferred = preferredColorScheme === "dark";
 
   function getOpacity(icon: Icon): number {
-    if (hoverIcon === undefined || icon === hoverIcon) {
+    if (focusedIcon === undefined || icon === focusedIcon) {
       return 1.0;
     }
 
@@ -51,9 +80,9 @@ function App() {
 
   function getOpacityAt(): number {
     if (
-      hoverIcon === undefined ||
-      Icon.Email === hoverIcon ||
-      Icon.GitHub === hoverIcon
+      focusedIcon === undefined ||
+      Icon.Email === focusedIcon ||
+      Icon.GitHub === focusedIcon
     ) {
       return 1.0;
     }
@@ -62,7 +91,7 @@ function App() {
   }
 
   function getOpacitySam(): number {
-    if (hoverIcon === undefined || Icon.Email === hoverIcon) {
+    if (focusedIcon === undefined || Icon.Email === focusedIcon) {
       return 1.0;
     }
 
@@ -71,10 +100,10 @@ function App() {
 
   function getOpacityCedarbaum(): number {
     if (
-      hoverIcon === undefined ||
-      Icon.Email === hoverIcon ||
-      Icon.Website === hoverIcon ||
-      Icon.GitHub === hoverIcon
+      focusedIcon === undefined ||
+      Icon.Email === focusedIcon ||
+      Icon.Website === focusedIcon ||
+      Icon.GitHub === focusedIcon
     ) {
       return 1.0;
     }
@@ -84,10 +113,18 @@ function App() {
 
   function getOpacityIo(): number {
     if (
-      hoverIcon === undefined ||
-      Icon.Website === hoverIcon ||
-      Icon.Email === hoverIcon
+      focusedIcon === undefined ||
+      Icon.Website === focusedIcon ||
+      Icon.Email === focusedIcon
     ) {
+      return 1.0;
+    }
+
+    return 0.25;
+  }
+
+  function getIconOpacity(icon: Icon): number {
+    if (focusedIcon === undefined || icon === focusedIcon) {
       return 1.0;
     }
 
@@ -97,12 +134,12 @@ function App() {
   function getTop(icon: Icon): number | string {
     const baseTop = outerWidth != null && outerWidth < 768 ? -0.3 : 0;
 
-    if (icon === hoverIcon) {
+    if (icon === focusedIcon) {
       return `${baseTop}rem`;
     }
 
     const level = IconToLevelMap[icon];
-    if (hoverIcon !== undefined && level < IconToLevelMap[hoverIcon]) {
+    if (focusedIcon !== undefined && level < IconToLevelMap[focusedIcon]) {
       return `${baseTop + 0.9 * (level + 1)}rem`;
     }
 
@@ -186,10 +223,11 @@ function App() {
               onMouseOver={() => setHoverIcon(Icon.Email)}
               onMouseLeave={() => setHoverIcon(undefined)}
             >
-              <FontAwesomeIcon
+              <AnimatableIcon
                 icon={faEnvelope}
                 size={"2x"}
                 color={fontAndIconColor}
+                opacity={getIconOpacity(Icon.Email)}
               />
             </a>
             <a
@@ -199,10 +237,11 @@ function App() {
               onMouseOver={() => setHoverIcon(Icon.GitHub)}
               onMouseLeave={() => setHoverIcon(undefined)}
             >
-              <FontAwesomeIcon
+              <AnimatableIcon
                 icon={faGithub}
                 size={"2x"}
                 color={fontAndIconColor}
+                opacity={getIconOpacity(Icon.GitHub)}
               />
             </a>
             <a
@@ -212,10 +251,11 @@ function App() {
               onMouseOver={() => setHoverIcon(Icon.Website)}
               onMouseLeave={() => setHoverIcon(undefined)}
             >
-              <FontAwesomeIcon
+              <AnimatableIcon
                 icon={faGlobe}
                 size={"2x"}
                 color={fontAndIconColor}
+                opacity={getIconOpacity(Icon.Website)}
               />
             </a>
           </IconContainer>
@@ -304,6 +344,10 @@ const IconContainer = styled.div({
   paddingTop: "4.5em",
   display: "flex",
   justifyContent: "space-between",
+});
+
+const AnimatableIcon = styled(FontAwesomeIcon)({
+  transition: "opacity 1.0s",
 });
 
 export default App;
