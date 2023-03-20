@@ -80,13 +80,17 @@ export default function Chat() {
       });
 
       if (!res.ok) {
+        const errorMessage =
+          res.status === 429
+            ? "Too many requests sent, please wait a few moments."
+            : "Something went wrong. Please try again.";
         setMessages((messages) => [
           ...messages,
           {
             role: "system",
             id: messages.length + 1,
             isTyping: false,
-            text: "Something went wrong. Please try again.",
+            text: errorMessage,
             type: "error",
           },
         ]);
