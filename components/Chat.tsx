@@ -163,6 +163,7 @@ export default function Chat() {
         <input
           id="message-input"
           type="text"
+          disabled={isFetching}
           placeholder="Type a message..."
           className="w-full bg-white border border-gray-300 rounded-full py-2 px-4 mr-2"
           onKeyPress={(event: any) => {
