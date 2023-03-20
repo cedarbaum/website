@@ -19,9 +19,20 @@ function getMessageFromAssistantText(text: string, id: number): Message {
   function urlify(text: string) {
     // HACK: ensure URL doesn't end with common punctuation
     const urlRegex = /(https?:\/\/[^\s]+[^\.,;:\s])/g;
-    return text.replace(urlRegex, function (url) {
+    const textWithUrlsReplaced = text.replace(urlRegex, function (url) {
       return (
         '<a target="_" class="underline" href="' + url + '">' + url + "</a>"
+      );
+    });
+
+    const emailRegex = /(scedarbaum@gmail.com)/g;
+    return textWithUrlsReplaced.replace(emailRegex, function (email) {
+      return (
+        '<a target="_" class="underline" href="mailto:' +
+        email +
+        '">' +
+        email +
+        "</a>"
       );
     });
   }
