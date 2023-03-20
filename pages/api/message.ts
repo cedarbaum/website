@@ -75,12 +75,20 @@ export default async function handler(
     })),
   ] as ChatCompletionRequestMessage[];
 
-  const completion = await openai.createChatCompletion({
-    model: "gpt-3.5-turbo",
-    messages: allMessages,
-  });
+  try {
+    const completion = await openai.createChatCompletion(
+      {
+        model: "gpt-3.5-turbo",
+        messages: allMessages,
+      },
+      { timeout: 10000 }
+    );
 
-  res
-    .status(200)
-    .json({ nextMessage: completion.data.choices[0].message!.content });
+    res
+      .status(200)
+      .json({ nextMessage: completion.data.choices[0].message!.content });
+  } catch (e: any) {
+    console.error(e?.message);
+    throw e;
+  }
 }
