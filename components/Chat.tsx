@@ -112,12 +112,14 @@ export default function Chat() {
     if (messages[messages.length - 1].role === "user") {
       refetch();
     }
+  }, [messages, refetch]);
 
+  useEffect(() => {
     if (messageContainerRef.current) {
       messageContainerRef.current.scrollTop =
         messageContainerRef.current.scrollHeight;
     }
-  }, [messages, refetch]);
+  }, [messages, isFetching]);
 
   const renderMessages = () => {
     let allMessages = messages;
