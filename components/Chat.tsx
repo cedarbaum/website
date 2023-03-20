@@ -159,6 +159,7 @@ export default function Chat() {
       </div>
       <div className="bg-gray-100 p-4 flex items-center">
         <input
+          id="message-input"
           type="text"
           placeholder="Type a message..."
           className="w-full bg-white border border-gray-300 rounded-full py-2 px-4 mr-2"
