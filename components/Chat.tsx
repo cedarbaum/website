@@ -2,6 +2,16 @@ import { useEffect, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import LoadingDots from "../components/LoadingDots";
 
+export enum ContextType {
+  Generic,
+  SingleUrl,
+}
+
+export type Context = {
+  type: ContextType;
+  data?: string;
+};
+
 const MESSAGE_HISTORY_LIMIT = parseInt(
   process.env.NEXT_PUBLIC_MESSAGE_HISTORY_LIMIT || "5"
 );
@@ -15,11 +25,15 @@ type Message = {
   type?: "text" | "image" | "html" | "error";
 };
 
-function getMessageFromAssistantText(text: string, id: number): Message {
+function processAssistantText(text: string, id: number): [Message, Context] {
+  let focusUrl = undefined;
+  let urlCount = 0;
   function urlify(text: string) {
     // HACK: ensure URL doesn't end with common punctuation
     const urlRegex = /(https?:\/\/[^\s]+[^\.,;:\s])/g;
     const textWithUrlsReplaced = text.replace(urlRegex, function (url) {
+      urlCount++;
+      focusUrl = url;
       return (
         '<a target="_" class="underline" href="' + url + '">' + url + "</a>"
       );
@@ -39,16 +53,25 @@ function getMessageFromAssistantText(text: string, id: number): Message {
 
   const htmlOrText = urlify(text);
   const type = htmlOrText === text ? "text" : "html";
-  return {
+  const message = {
     id,
     text: text,
     html: type === "html" ? htmlOrText : undefined,
     role: "assistant",
     type,
-  };
+  } as Message;
+
+  const contextType =
+    urlCount === 1 && focusUrl ? ContextType.SingleUrl : ContextType.Generic;
+
+  return [message, { type: contextType, data: focusUrl }];
 }
 
-export default function Chat() {
+export default function Chat({
+  onContextChange,
+}: {
+  onContextChange: (ctx: Context) => void;
+}) {
   const messageContainerRef = useRef<HTMLDivElement>(null);
 
   const [messages, setMessages] = useState<Message[]>([
@@ -102,10 +125,12 @@ export default function Chat() {
 
       const nextMessage = resJson.nextMessage as string;
 
-      setMessages((messages) => [
-        ...messages,
-        getMessageFromAssistantText(nextMessage, messages.length + 1),
-      ]);
+      const [newMessgae, ctx] = processAssistantText(
+        nextMessage,
+        messages.length + 1
+      );
+      setMessages((messages) => [...messages, newMessgae]);
+      onContextChange(ctx);
 
       return nextMessage;
     },
@@ -171,7 +196,7 @@ export default function Chat() {
   };
 
   return (
-    <div className="bg-gray-100 flex flex-col md:max-w-md mx-auto h-full border border-gray-300 md:rounded-lg overflow-hidden">
+    <div className="bg-gray-100 flex flex-col h-full border border-gray-300">
       <div
         ref={messageContainerRef}
         className="overflow-scroll h-full flex-grow"

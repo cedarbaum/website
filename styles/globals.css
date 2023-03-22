@@ -9,11 +9,15 @@ body,
   height: 100%;
 }
 
-.chat-container {
-  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+.page-background {
+  background: linear-gradient(-45deg, #64748b, #06b6d4, #334155, #0ea5e9);
   background-size: 400% 400%;
   animation: gradient 15s ease infinite;
   height: 100%;
+}
+
+.sidecar-container {
+  transition: all 500ms ease-out;
 }
 
 @keyframes gradient {
