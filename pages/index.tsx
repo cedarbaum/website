@@ -47,6 +47,11 @@ export default function Home({
             className={`sidecar-container ${
               sidecarExpanded ? "grow" : ""
             } rounded-r-lg overflow-hidden bg-white h-full relative hidden md:block`}
+            onTransitionEnd={() => {
+              if (!sidecarExpanded) {
+                setFocusUrl(undefined);
+              }
+            }}
           >
             <iframe
               allow="geolocation"
