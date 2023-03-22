@@ -23,6 +23,7 @@ type Message = {
   role: "user" | "assistant" | "system";
   isTyping?: boolean;
   type?: "text" | "image" | "html" | "error";
+  chips?: string[];
 };
 
 function processAssistantText(text: string, id: number): [Message, Context] {
@@ -82,6 +83,7 @@ export default function Chat({
 2. How can I contact Sam?
 3  Does he have a resume or just this weird chatbot?`,
       role: "system",
+      chips: ["Resume", "Contact", "Projects"],
     },
   ]);
 
@@ -191,7 +193,26 @@ export default function Chat({
     }
 
     return allMessages.map((message) => (
-      <MessageBubble key={message.id} message={message} />
+      <>
+        <MessageBubble key={message.id} message={message} />
+        {message.chips && (
+          <Chips
+            chips={message.chips}
+            onClick={(chip) => {
+              setMessages((messages) => [
+                ...messages,
+                {
+                  role: "user",
+                  id: messages.length + 1,
+                  isTyping: false,
+                  text: chip,
+                  type: "text",
+                },
+              ]);
+            }}
+          />
+        )}
+      </>
     ));
   };
 
@@ -264,6 +285,30 @@ function MessageBubble({ message }: { message: Message }) {
   return (
     <div className={`p-3 mb-2 rounded-lg max-w-sm w-fit ${bubbleClass}`}>
       {innerHtml}
+    </div>
+  );
+}
+
+function Chips({
+  chips,
+  onClick,
+}: {
+  chips: string[];
+  onClick: (chip: string) => void;
+}) {
+  return (
+    <div className={`pt-3 mb-2 rounded-lg max-w-sm w-fit flex`}>
+      {chips.map((chip) => {
+        return (
+          <div
+            key={chip}
+            className="rounded-full mr-2 bg-gray-300 py-2 px-4 hover:bg-gray-400 cursor-pointer"
+            onClick={() => onClick(chip)}
+          >
+            {chip}
+          </div>
+        );
+      })}
     </div>
   );
 }
