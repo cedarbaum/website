@@ -30,7 +30,7 @@ function processAssistantText(text: string, id: number): [Message, Context] {
   let urlCount = 0;
   function urlify(text: string) {
     // HACK: ensure URL doesn't end with common punctuation
-    const urlRegex = /(https?:\/\/[^\s]+[^\.,;:\s])/g;
+    const urlRegex = /(https?:\/\/[^\s]+[^\.,;:\s\)\(])/g;
     const textWithUrlsReplaced = text.replace(urlRegex, function (url) {
       urlCount++;
       focusUrl = url;
