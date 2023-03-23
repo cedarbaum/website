@@ -213,6 +213,10 @@ export default function Chat({
             <Chips
               chips={message.chips}
               onClick={(chip) => {
+                if (isFetching) {
+                  return;
+                }
+
                 setMessages((messages) => [
                   ...messages,
                   {
