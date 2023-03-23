@@ -28,7 +28,11 @@ function processAssistantText(text: string, id: number): [Message, Context] {
       urlCount++;
       focusUrl = url;
       return (
-        '<a target="_" class="underline" href="' + url + '">' + url + "</a>"
+        '<a target="_blank" class="underline" href="' +
+        url +
+        '">' +
+        url +
+        "</a>"
       );
     });
 
