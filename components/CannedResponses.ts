@@ -16,11 +16,11 @@ const cannedResponses: CannedResponse[] = [
     trigger: "projects",
     text: `Sam is currently working on several projects. These Include:
 
-🚇 https://closingdoors.nyc/ - a minimalist NYC subway schedule viewer
-🏃 https://www.runstreak.app/ - a web app for tracking run streaks on Strava
-☁️ https://www.postmodern.cloud/ - a postmodern take on weather forecasts
-🥤 https://www.dietcoke.reviews/ - reviews of diet coke around NYC
-🗺️ https://www.subwaygpt.app/ - get (not very accurate) NYC subway directions using GPT-3
+🚇 https://closingdoors.nyc - a minimalist NYC subway schedule viewer
+🏃 https://www.runstreak.app - a web app for tracking run streaks on Strava
+☁️ https://www.postmodern.cloud - a postmodern take on weather forecasts
+🥤 https://www.dietcoke.reviews - reviews of diet coke around NYC
+🗺️ https://www.subwaygpt.app - get (not very accurate) NYC subway directions using GPT-3
 
 You can visit these links to learn more about the individual projects.`,
   },
