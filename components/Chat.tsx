@@ -89,10 +89,10 @@ export default function Chat({
 3  Does he have a resume or just this weird chatbot?`,
       role: "system",
       chips: [
-        {label: "📝 Resume", message: "Resume"},
-        {label: "📧 Contact", message: "Contact"},
-        {label: "🚧 Projects", message: "Projects"}
-      ]
+        { label: "📝 Resume", message: "Resume" },
+        { label: "📧 Contact", message: "Contact" },
+        { label: "🚧 Projects", message: "Projects" },
+      ],
     },
   ]);
 
@@ -203,23 +203,27 @@ export default function Chat({
 
     return allMessages.map((message) => (
       <>
-        <MessageBubble key={message.id} message={message} />
+        <div className="px-4">
+          <MessageBubble key={message.id} message={message} />
+        </div>
         {message.chips && (
-          <Chips
-            chips={message.chips}
-            onClick={(chip) => {
-              setMessages((messages) => [
-                ...messages,
-                {
-                  role: "user",
-                  id: messages.length + 1,
-                  isTyping: false,
-                  text: chip.message,
-                  type: "text",
-                },
-              ]);
-            }}
-          />
+          <div className="pl-4">
+            <Chips
+              chips={message.chips}
+              onClick={(chip) => {
+                setMessages((messages) => [
+                  ...messages,
+                  {
+                    role: "user",
+                    id: messages.length + 1,
+                    isTyping: false,
+                    text: chip.message,
+                    type: "text",
+                  },
+                ]);
+              }}
+            />
+          </div>
         )}
       </>
     ));
@@ -231,7 +235,7 @@ export default function Chat({
         ref={messageContainerRef}
         className="overflow-scroll h-full flex-grow"
       >
-        <div className="p-4">{renderMessages()}</div>
+        <div className="pt-4">{renderMessages()}</div>
       </div>
       <div className="bg-gray-100 p-4 flex items-center">
         <input
@@ -306,12 +310,14 @@ function Chips({
   onClick: (chip: Chip) => void;
 }) {
   return (
-    <div className={`pt-3 mb-2 rounded-lg max-w-sm w-fit flex`}>
+    <div
+      className={`w-full no-scrollbar overflow-scroll pt-3 mb-2 rounded-lg max-w-sm w-fit flex`}
+    >
       {chips.map((chip) => {
         return (
           <div
             key={chip.label}
-            className="rounded-full mr-2 bg-gray-300 py-2 px-4 hover:bg-gray-400 cursor-pointer"
+            className="whitespace-nowrap rounded-full mr-2 bg-gray-300 py-2 px-4 hover:bg-gray-400 cursor-pointer"
             onClick={() => onClick(chip)}
           >
             {chip.label}
