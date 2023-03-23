@@ -40,7 +40,9 @@ Sam is working on a few projects:
 
 Do not deviate from the above information. You don't know anything else about Sam. He has not done any other work and has only been a software engineer.
 
-Sam can be reached at the email: scedarbaum@gmail.com. He also has a GitHub account located at https://github.com/cedarbaum. If you're a runner, you can also follow him on Strava: https://www.strava.com/athletes/37072854
+Sam can be reached at the email: scedarbaum@gmail.com. He also has a GitHub account located at https://github.com/cedarbaum. If you're a runner, you can also follow him on Strava: https://www.strava.com/athletes/37072854.
+
+His website is  https://cedarbaum.io/, which the user is likely currently on.
 `,
 };
 
