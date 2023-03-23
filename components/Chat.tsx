@@ -16,6 +16,11 @@ const MESSAGE_HISTORY_LIMIT = parseInt(
   process.env.NEXT_PUBLIC_MESSAGE_HISTORY_LIMIT || "5"
 );
 
+type Chip = {
+  message: string;
+  label: string;
+};
+
 type Message = {
   id: number;
   text?: string;
@@ -23,7 +28,7 @@ type Message = {
   role: "user" | "assistant" | "system";
   isTyping?: boolean;
   type?: "text" | "image" | "html" | "error";
-  chips?: string[];
+  chips?: Chip[];
 };
 
 function processAssistantText(text: string, id: number): [Message, Context] {
@@ -83,7 +88,11 @@ export default function Chat({
 2. How can I contact Sam?
 3  Does he have a resume or just this weird chatbot?`,
       role: "system",
-      chips: ["Resume", "Contact", "Projects"],
+      chips: [
+        {label: "📝 Resume", message: "Resume"},
+        {label: "📧 Contact", message: "Contact"},
+        {label: "🚧 Projects", message: "Projects"}
+      ]
     },
   ]);
 
@@ -205,7 +214,7 @@ export default function Chat({
                   role: "user",
                   id: messages.length + 1,
                   isTyping: false,
-                  text: chip,
+                  text: chip.message,
                   type: "text",
                 },
               ]);
@@ -293,19 +302,19 @@ function Chips({
   chips,
   onClick,
 }: {
-  chips: string[];
-  onClick: (chip: string) => void;
+  chips: Chip[];
+  onClick: (chip: Chip) => void;
 }) {
   return (
     <div className={`pt-3 mb-2 rounded-lg max-w-sm w-fit flex`}>
       {chips.map((chip) => {
         return (
           <div
-            key={chip}
+            key={chip.label}
             className="rounded-full mr-2 bg-gray-300 py-2 px-4 hover:bg-gray-400 cursor-pointer"
             onClick={() => onClick(chip)}
           >
-            {chip}
+            {chip.label}
           </div>
         );
       })}
