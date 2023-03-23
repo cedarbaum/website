@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import LoadingDots from "../components/LoadingDots";
+import { Chip, Message } from "./Message";
+import getCannedResponse from "./CannedResponses";
 
 export enum ContextType {
   Generic,
@@ -15,21 +17,6 @@ export type Context = {
 const MESSAGE_HISTORY_LIMIT = parseInt(
   process.env.NEXT_PUBLIC_MESSAGE_HISTORY_LIMIT || "5"
 );
-
-type Chip = {
-  message: string;
-  label: string;
-};
-
-type Message = {
-  id: number;
-  text?: string;
-  html?: string;
-  role: "user" | "assistant" | "system";
-  isTyping?: boolean;
-  type?: "text" | "image" | "html" | "error";
-  chips?: Chip[];
-};
 
 function processAssistantText(text: string, id: number): [Message, Context] {
   let focusUrl = undefined;
@@ -80,6 +67,12 @@ export default function Chat({
 }) {
   const messageContainerRef = useRef<HTMLDivElement>(null);
 
+  const commonChips = [
+    { label: "📝 Resume", message: "Resume" },
+    { label: "📧 Contact", message: "Contact" },
+    { label: "🚧 Projects", message: "Projects" },
+  ];
+
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,
@@ -88,13 +81,15 @@ export default function Chat({
 2. How can I contact Sam?
 3  Does he have a resume or just this weird chatbot?`,
       role: "system",
-      chips: [
-        { label: "📝 Resume", message: "Resume" },
-        { label: "📧 Contact", message: "Contact" },
-        { label: "🚧 Projects", message: "Projects" },
-      ],
+      chips: commonChips,
     },
   ]);
+
+  const handleAssistantResponse = (response: string, id: number) => {
+    const [message, context] = processAssistantText(response, id);
+    setMessages((messages) => [...messages, message]);
+    onContextChange(context);
+  };
 
   const { isFetching, refetch, error } = useQuery(
     ["messages", messages.length],
@@ -105,6 +100,14 @@ export default function Chat({
       const limitedMessages = validMessages.slice(
         Math.max(validMessages.length - MESSAGE_HISTORY_LIMIT, 0)
       );
+
+      const lastUserMessage = limitedMessages[limitedMessages.length - 1];
+      const cannedResponse = getCannedResponse(lastUserMessage?.text);
+      if (cannedResponse) {
+        await delay(1000);
+        handleAssistantResponse(cannedResponse, messages.length + 1);
+        return cannedResponse;
+      }
 
       const res = await fetch("/api/message", {
         method: "POST",
@@ -124,8 +127,9 @@ export default function Chat({
             role: "system",
             id: messages.length + 1,
             isTyping: false,
-            text: errorMessage,
+            text: `${errorMessage} You can still select below prompts for common information:`,
             type: "error",
+            chips: commonChips,
           },
         ]);
 
@@ -135,13 +139,7 @@ export default function Chat({
       const resJson = await res.json();
 
       const nextMessage = resJson.nextMessage as string;
-
-      const [newMessgae, ctx] = processAssistantText(
-        nextMessage,
-        messages.length + 1
-      );
-      setMessages((messages) => [...messages, newMessgae]);
-      onContextChange(ctx);
+      handleAssistantResponse(nextMessage, messages.length + 1);
 
       return nextMessage;
     },
@@ -202,9 +200,9 @@ export default function Chat({
     }
 
     return allMessages.map((message) => (
-      <>
+      <div key={message.id}>
         <div className="px-4">
-          <MessageBubble key={message.id} message={message} />
+          <MessageBubble message={message} />
         </div>
         {message.chips && (
           <div className="pl-4">
@@ -225,7 +223,7 @@ export default function Chat({
             />
           </div>
         )}
-      </>
+      </div>
     ));
   };
 
@@ -311,7 +309,7 @@ function Chips({
 }) {
   return (
     <div
-      className={`w-full no-scrollbar overflow-scroll pt-3 mb-2 rounded-lg max-w-sm w-fit flex`}
+      className={`w-full no-scrollbar overflow-scroll pt-2 mb-2 rounded-lg max-w-sm w-fit flex`}
     >
       {chips.map((chip) => {
         return (
@@ -326,4 +324,8 @@ function Chips({
       })}
     </div>
   );
+}
+
+function delay(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
