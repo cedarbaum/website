@@ -51,8 +51,8 @@ export default function PostPage({
   mdxSource: MDXRemoteSerializeResult;
 }) {
   return (
-    <div className="w-full h-full bg-white dark:bg-gray-800">
-      <article className="prose dark:prose-invert p-8">
+    <div className="w-full h-full">
+      <article className="prose p-8">
         <MDXRemote {...mdxSource} />
       </article>
     </div>
