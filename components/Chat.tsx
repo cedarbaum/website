@@ -7,6 +7,7 @@ import getCannedResponse from "./CannedResponses";
 export enum ContextType {
   Generic,
   SingleUrl,
+  Contact,
 }
 
 export type Context = {
@@ -21,6 +22,7 @@ const MESSAGE_HISTORY_LIMIT = parseInt(
 function processAssistantText(text: string, id: number): [Message, Context] {
   let focusUrl = undefined;
   let urlCount = 0;
+  let hasContactInfo = false;
   function urlify(text: string) {
     // HACK: ensure URL doesn't end with common punctuation
     const urlRegex = /(https?:\/\/[^\s]+[^\.,;:\s\)\(])/g;
@@ -38,6 +40,7 @@ function processAssistantText(text: string, id: number): [Message, Context] {
 
     const emailRegex = /(scedarbaum@gmail.com)/g;
     return textWithUrlsReplaced.replace(emailRegex, function (email) {
+      hasContactInfo = true;
       return (
         '<a target="_" class="underline" href="mailto:' +
         email +
@@ -58,8 +61,12 @@ function processAssistantText(text: string, id: number): [Message, Context] {
     type,
   } as Message;
 
-  const contextType =
-    urlCount === 1 && focusUrl ? ContextType.SingleUrl : ContextType.Generic;
+  let contextType = ContextType.Generic;
+  if (hasContactInfo) {
+    contextType = ContextType.Contact;
+  } else if (urlCount === 1 && focusUrl) {
+    contextType = ContextType.SingleUrl;
+  }
 
   return [message, { type: contextType, data: focusUrl }];
 }

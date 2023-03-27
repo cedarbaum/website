@@ -3,6 +3,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Chat, { Context, ContextType } from "./Chat";
+import ContactCard from "./ContactCard";
 
 const blockedUrlDomains = ["strava", "github"];
 const blockedUrlHosts = new Set(
@@ -11,25 +12,69 @@ const blockedUrlHosts = new Set(
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
+  const [context, setContext] = useState<Context | null>(null);
   const [sidecarExpanded, setSidecarExpanded] = useState<boolean>(false);
+  const [sidecarMaxWidth, setSidecarMaxWidth] = useState<string>("none");
   const [viewingPost, setIsViewingPost] = useState<boolean>(false);
   const [focusUrl, setFocusUrl] = useState<undefined | string>();
   const windowWidth = useWindowWidth();
 
   function onContextChange(ctx: Context) {
-    if (ctx.type === ContextType.SingleUrl && windowWidth > 640) {
+    setContext(ctx);
+
+    if (windowWidth <= 640) {
+      setSidecarExpanded(false);
+      return;
+    }
+
+    if (ctx.type === ContextType.SingleUrl) {
       const host = new URL(ctx.data!).host;
       if (blockedUrlHosts.has(host)) {
         return;
       }
 
       setFocusUrl(ctx.data);
+      setSidecarMaxWidth("none");
+      setSidecarExpanded(true);
+    } else if (ctx.type === ContextType.Contact) {
+      setFocusUrl(undefined);
+      setSidecarMaxWidth("max-w-[350px]");
       setSidecarExpanded(true);
     } else {
       setSidecarExpanded(false);
     }
 
     setIsViewingPost(false);
+  }
+
+  function getViewForContext() {
+    if (context === null) {
+      return null;
+    }
+
+    switch (context.type) {
+      case ContextType.Contact:
+        return <ContactCard />;
+      case ContextType.SingleUrl:
+        return (
+          <iframe
+            allow="geolocation"
+            className=" w-full h-full"
+            src={focusUrl}
+          />
+        );
+      default:
+        return null;
+    }
+  }
+
+  function getSidecarView() {
+    const viewForCtx = getViewForContext();
+    if (viewForCtx) {
+      return viewForCtx;
+    }
+
+    return <div className="w-full h-full">{children}</div>;
   }
 
   useEffect(() => {
@@ -68,7 +113,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   <Chat onContextChange={onContextChange} />
                 </div>
                 <div
-                  className={`sidecar-container ${
+                  className={`sidecar-container ${sidecarMaxWidth} ${
                     sidecarExpanded ? "grow" : ""
                   } rounded-r-lg overflow-hidden bg-white h-full relative hidden md:block`}
                   onTransitionEnd={() => {
@@ -77,16 +122,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                     }
                   }}
                 >
-                  <div className="top-0 right-0 bottom-0 left-0 absolute w-full h-full border-none">
-                    {focusUrl ? (
-                      <iframe
-                        allow="geolocation"
-                        className=" w-full h-full"
-                        src={focusUrl}
-                      />
-                    ) : (
-                      <div className="w-full h-full">{children}</div>
-                    )}
+                  <div
+                    className={`top-0 right-0 bottom-0 left-0 absolute w-full h-full border-none`}
+                  >
+                    {getSidecarView()}
                   </div>
                 </div>
               </div>
