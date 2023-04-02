@@ -12,7 +12,7 @@ const blockedUrlHosts = new Set(
 export default function Home() {
   const [context, setContext] = useState<Context | null>(null);
   const [sidecarExpanded, setSidecarExpanded] = useState<boolean>(false);
-  const [sidecarMaxWidth, setSidecarMaxWidth] = useState<string>("max-w-full");
+  const [sidecarMaxWidth, setSidecarMaxWidth] = useState<string>("100%");
   const [focusUrl, setFocusUrl] = useState<null | string>(null);
   const windowWidth = useWindowWidth();
 
@@ -31,11 +31,11 @@ export default function Home() {
       }
 
       setFocusUrl(ctx.data);
-      setSidecarMaxWidth("max-w-full");
+      setSidecarMaxWidth("100%");
       setSidecarExpanded(true);
     } else if (ctx.type === ContextType.Contact) {
       setFocusUrl(null);
-      setSidecarMaxWidth("max-w-[350px]");
+      setSidecarMaxWidth("350px");
       setSidecarExpanded(true);
     } else {
       setSidecarExpanded(false);
@@ -91,9 +91,11 @@ export default function Home() {
                 <Chat onContextChange={onContextChange} />
               </div>
               <div
-                className={`sidecar-container ${sidecarMaxWidth} ${
-                  sidecarExpanded ? "w-full" : "w-0"
-                } rounded-r-lg overflow-hidden bg-white h-full relative hidden md:block`}
+                style={{
+                  maxWidth: sidecarMaxWidth,
+                  width: sidecarExpanded ? `min(100%, ${sidecarMaxWidth})` : 0,
+                }}
+                className="sidecar-container rounded-r-lg overflow-hidden bg-white h-full relative hidden md:block"
                 onTransitionEnd={() => {
                   if (!sidecarExpanded) {
                     setFocusUrl(null);

@@ -17,7 +17,7 @@ body,
 }
 
 .sidecar-container {
-  transition: width 500ms ease-out, max-width 500ms ease-out;
+  transition: width 300ms ease-out, max-width 500ms ease-out;
 }
 
 @keyframes gradient {
