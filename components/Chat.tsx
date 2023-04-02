@@ -12,7 +12,7 @@ export enum ContextType {
 
 export type Context = {
   type: ContextType;
-  data?: string;
+  data: string | null;
 };
 
 const MESSAGE_HISTORY_LIMIT = parseInt(
@@ -68,7 +68,7 @@ function processAssistantText(text: string, id: number): [Message, Context] {
     contextType = ContextType.SingleUrl;
   }
 
-  return [message, { type: contextType, data: focusUrl }];
+  return [message, { type: contextType, data: focusUrl ?? null }];
 }
 
 export default function Chat({
