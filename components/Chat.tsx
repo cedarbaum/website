@@ -246,7 +246,7 @@ export default function Chat({
     <div className="bg-gray-100 flex flex-col h-full border border-gray-300">
       <div
         ref={messageContainerRef}
-        className="overflow-scroll h-full flex-grow"
+        className="overflow-scroll h-full flex-grow scrollbar-hide"
       >
         <div className="pt-4">{renderMessages()}</div>
       </div>
@@ -324,7 +324,7 @@ function Chips({
 }) {
   return (
     <div
-      className={`w-full no-scrollbar overflow-scroll pt-2 mb-2 rounded-lg max-w-sm w-fit flex`}
+      className={`w-full scrollbar-hide overflow-scroll pt-2 mb-2 rounded-lg max-w-sm w-fit flex`}
     >
       {chips.map((chip) => {
         return (
