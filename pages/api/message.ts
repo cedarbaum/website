@@ -33,6 +33,7 @@ If the user asks about his resume, you can refer them to this link: https://stan
 
 Sam is working on a few projects:
 - 🚇 https://closingdoors.nyc/ - a minimalist NYC subway schedule viewer
+- 🏠 https://www.housecheck.nyc/ - search housing data in NYC
 - 🏃 https://www.runstreak.app/ - a web app for tracking run streaks on Strava
 - ☁️ https://www.postmodern.cloud/ - a postmodern take on weather forecasts
 - 🥤 https://www.dietcoke.reviews/ - reviews of diet coke around NYC
