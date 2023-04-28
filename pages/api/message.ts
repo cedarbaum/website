@@ -51,6 +51,8 @@ const MESSAGE_HISTORY_LIMIT = parseInt(
   process.env.NEXT_PUBLIC_MESSAGE_HISTORY_LIMIT || "5"
 );
 
+const MAX_MESSAGE_LENGTH = 2048;
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data | Error>
@@ -70,6 +72,14 @@ export default async function handler(
   const limitedMessages = validMessages.slice(
     Math.max(validMessages.length - MESSAGE_HISTORY_LIMIT, 0)
   );
+
+  for (const message of limitedMessages) {
+    if (message.text.length > MAX_MESSAGE_LENGTH) {
+      res.status(400).json({ error: "Message too long" });
+      return;
+    }
+  }
+
   const allMessages = [
     systemPrompt,
     ...limitedMessages.map((m) => ({
