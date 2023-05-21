@@ -7,7 +7,6 @@ export default function BlogIndex({
 }: {
   posts: { slug: string; frontmatter: any }[];
 }) {
-  console.log(posts);
   return (
     <div className="w-full h-full dark:bg-black prose dark:prose-invert p-8">
       <header className="text-5xl">Blog posts</header>
