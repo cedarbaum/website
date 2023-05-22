@@ -1,7 +1,4 @@
-import {
-  EnvelopeIcon,
-  HomeIcon,
-} from "@heroicons/react/24/outline";
+import { EnvelopeIcon, HomeIcon } from "@heroicons/react/24/outline";
 
 import { GitHubIcon } from "./SocialIcons";
 
@@ -19,7 +16,10 @@ export default function ContactCard() {
             />
           </dt>
           <dd>
-            <a className="hover:text-gray-900" href="mailto:scedarbaum@gmail.com">
+            <a
+              className="hover:text-gray-900"
+              href="mailto:scedarbaum@gmail.com"
+            >
               scedarbaum@gmail.com
             </a>
           </dd>
@@ -27,7 +27,10 @@ export default function ContactCard() {
         <div className="flex gap-x-4">
           <dt className="flex-none">
             <span className="sr-only">Github</span>
-            <GitHubIcon className="h-7 w-6 text-gray-400 fill-gray-400" aria-hidden="true" />
+            <GitHubIcon
+              className="h-7 w-6 text-gray-400 fill-gray-400"
+              aria-hidden="true"
+            />
           </dt>
           <dd>
             <a
@@ -42,12 +45,17 @@ export default function ContactCard() {
         <div className="flex gap-x-4">
           <dt className="flex-none">
             <span className="sr-only">Location</span>
-            <HomeIcon
-              className="h-7 w-6 text-gray-400"
-              aria-hidden="true"
-            />
+            <HomeIcon className="h-7 w-6 text-gray-400" aria-hidden="true" />
           </dt>
-          <dd>New York, New York</dd>
+          <dd>
+            <a
+              className="hover:text-gray-900"
+              target="_blank"
+              href="https://goo.gl/maps/nqhdmbqhWo9FMhos8"
+            >
+              New York, New York
+            </a>
+          </dd>
         </div>
       </dl>
     </>
