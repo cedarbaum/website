@@ -1,6 +1,6 @@
 import {
-  BuildingOffice2Icon,
   EnvelopeIcon,
+  HomeIcon,
 } from "@heroicons/react/24/outline";
 
 import { GitHubIcon } from "./SocialIcons";
@@ -41,8 +41,8 @@ export default function ContactCard() {
         </div>
         <div className="flex gap-x-4">
           <dt className="flex-none">
-            <span className="sr-only">Email</span>
-            <BuildingOffice2Icon
+            <span className="sr-only">Location</span>
+            <HomeIcon
               className="h-7 w-6 text-gray-400"
               aria-hidden="true"
             />
