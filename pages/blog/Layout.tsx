@@ -11,7 +11,7 @@ function Code({ children, className }: any) {
   }
 
   return (
-    <Highlight code={children} language={language} theme={themes.dracula}>
+    <Highlight code={children} language={language} theme={themes.vsDark}>
       {({ className, style, tokens, getLineProps, getTokenProps }) => (
         <code className={className} style={style}>
           {tokens.slice(0, -1).map((line, i) => (
