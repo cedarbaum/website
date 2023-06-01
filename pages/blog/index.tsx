@@ -11,19 +11,24 @@ export default function BlogIndex({
     <div className="w-full h-full dark:bg-black prose dark:prose-invert p-8">
       <header className="text-5xl">Blog posts</header>
       <main>
-        {posts.map((post) => (
-          <article key={post.slug} className="my-10">
-            <header>
-              <Link href={`/blog/${post.slug}`} className="text-3xl">
-                {post.frontmatter.title}
-              </Link>
-              <p className="text-sm mt-2">{post.frontmatter.date}</p>
-            </header>
-            <section>
-              <p>{post.frontmatter.description}</p>
-            </section>
-          </article>
-        ))}
+        {posts
+          .filter(
+            ({ frontmatter }) =>
+              !frontmatter.is_draft || process.env.NEXT_PUBLIC_SHOW_BLOG_DRAFTS
+          )
+          .map(({ slug, frontmatter }) => (
+            <article key={slug} className="my-10">
+              <header>
+                <Link href={`/blog/${slug}`} className="text-3xl">
+                  {frontmatter.title}
+                </Link>
+                <p className="text-sm mt-2">{frontmatter.date}</p>
+              </header>
+              <section>
+                <p>{frontmatter.description}</p>
+              </section>
+            </article>
+          ))}
       </main>
     </div>
   );
