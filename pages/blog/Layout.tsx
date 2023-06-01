@@ -2,6 +2,7 @@ import { ClipboardDocumentIcon } from "@heroicons/react/24/outline";
 import { MDXProvider } from "@mdx-js/react";
 import { Highlight, themes, Prism } from "prism-react-renderer";
 import { useState } from "react";
+import { Toaster, toast } from "react-hot-toast";
 
 (typeof global !== "undefined" ? global : window).Prism = Prism;
 require("prismjs/components/prism-python");
@@ -47,6 +48,9 @@ function Pre({ children, className }: any) {
     navigator.clipboard.writeText(
       grandChildren ? grandChildren.trim() : children.trim()
     );
+    toast("Copied to clipboard", {
+      icon: "✂️",
+    });
   };
 
   return (
@@ -71,6 +75,11 @@ function Pre({ children, className }: any) {
 export default function Layout({ children }: { children: JSX.Element }) {
   return (
     <MDXProvider components={{ code: Code, pre: Pre }}>
+      <Toaster
+        position="top-center"
+        reverseOrder={false}
+        toastOptions={{ duration: 1000 }}
+      />
       <div className="dark:bg-black prose dark:prose-invert p-8">
         {children}
       </div>
