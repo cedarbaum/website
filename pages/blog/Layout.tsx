@@ -31,18 +31,9 @@ function Code({ children, className }: any) {
 }
 
 function Pre({ children, className }: any) {
-  const childClassName = children?.props?.className;
   const grandChildren = children?.props?.children;
 
   const [clipboardShown, setClipboardShown] = useState(false);
-
-  if (
-    childClassName === undefined ||
-    grandChildren === undefined ||
-    !childClassName?.replace(/language-/gm, "")
-  ) {
-    return <pre className={className}>{children}</pre>;
-  }
 
   const onMouseEnter = () => {
     setClipboardShown(true);
@@ -53,7 +44,9 @@ function Pre({ children, className }: any) {
   };
 
   const onClipboardClick = () => {
-    navigator.clipboard.writeText(grandChildren.trim());
+    navigator.clipboard.writeText(
+      grandChildren ? grandChildren.trim() : children.trim()
+    );
   };
 
   return (
@@ -62,7 +55,7 @@ function Pre({ children, className }: any) {
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >
-      {clipboardShown && (
+      {(grandChildren || children) && clipboardShown && (
         <div className="flex flex-col justify-center absolute top-0 right-4 h-full">
           <ClipboardDocumentIcon
             className="w-6 h-6 cursor-pointer opacity-50 hover:opacity-100"
