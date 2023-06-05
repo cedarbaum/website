@@ -8,30 +8,32 @@ export default function BlogIndex({
 }: {
   posts: { slug: string; frontmatter: any }[];
 }) {
+  if (posts.length === 0) {
+    return (
+      <Layout>
+        <header className="text-5xl">No blog posts 😔</header>
+      </Layout>
+    );
+  }
+
   return (
     <Layout>
       <div className="w-full h-full dark:bg-black prose dark:prose-invert">
         <header className="text-5xl">Blog posts</header>
         <main>
-          {posts
-            .filter(
-              ({ frontmatter }) =>
-                !frontmatter.is_draft ||
-                process.env.NEXT_PUBLIC_SHOW_BLOG_DRAFTS
-            )
-            .map(({ slug, frontmatter }) => (
-              <article key={slug} className="my-10">
-                <header>
-                  <Link href={`/blog/${slug}`} className="text-3xl">
-                    {frontmatter.title}
-                  </Link>
-                  <p className="text-sm mt-2">{frontmatter.date}</p>
-                </header>
-                <section>
-                  <p>{frontmatter.description}</p>
-                </section>
-              </article>
-            ))}
+          {posts.map(({ slug, frontmatter }) => (
+            <article key={slug} className="my-10">
+              <header>
+                <Link href={`/blog/${slug}`} className="text-3xl">
+                  {frontmatter.title}
+                </Link>
+                <p className="text-sm mt-2">{frontmatter.date}</p>
+              </header>
+              <section>
+                <p>{frontmatter.description}</p>
+              </section>
+            </article>
+          ))}
         </main>
       </div>
     </Layout>
@@ -55,7 +57,11 @@ export async function getStaticProps() {
         slug,
         frontmatter,
       };
-    });
+    })
+    .filter(
+      ({ frontmatter }) =>
+        !frontmatter.is_draft || process.env.NEXT_PUBLIC_SHOW_BLOG_DRAFTS
+    );
 
   return {
     props: {
