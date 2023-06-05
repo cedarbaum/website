@@ -1,5 +1,6 @@
 import { ClipboardDocumentIcon } from "@heroicons/react/24/outline";
 import { MDXProvider } from "@mdx-js/react";
+import Head from "next/head";
 import { Highlight, themes, Prism } from "prism-react-renderer";
 import { useState } from "react";
 import { Toaster, toast } from "react-hot-toast";
@@ -72,17 +73,31 @@ function Pre({ children, className }: any) {
   );
 }
 
-export default function Layout({ children }: { children: JSX.Element }) {
+export default function Layout({
+  title,
+  children,
+}: {
+  title?: string;
+  children: JSX.Element;
+}) {
   return (
-    <MDXProvider components={{ code: Code, pre: Pre }}>
+    <>
+      {title && (
+        <Head>
+          <title>{title}</title>
+        </Head>
+      )}
       <Toaster
         position="top-center"
         reverseOrder={false}
         toastOptions={{ duration: 1000 }}
       />
-      <div className="dark:bg-black prose dark:prose-invert p-8">
-        {children}
-      </div>
-    </MDXProvider>
+      <MDXProvider components={{ code: Code, pre: Pre }}>
+        <div className="dark:bg-black prose dark:prose-invert p-8">
+          <nav></nav>
+          {children}
+        </div>
+      </MDXProvider>
+    </>
   );
 }
