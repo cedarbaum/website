@@ -1,6 +1,7 @@
 import fs from "fs";
 import matter from "gray-matter";
 import Link from "next/link";
+import Layout from "./Layout";
 
 export default function BlogIndex({
   posts,
@@ -8,29 +9,32 @@ export default function BlogIndex({
   posts: { slug: string; frontmatter: any }[];
 }) {
   return (
-    <div className="w-full h-full dark:bg-black prose dark:prose-invert p-8">
-      <header className="text-5xl">Blog posts</header>
-      <main>
-        {posts
-          .filter(
-            ({ frontmatter }) =>
-              !frontmatter.is_draft || process.env.NEXT_PUBLIC_SHOW_BLOG_DRAFTS
-          )
-          .map(({ slug, frontmatter }) => (
-            <article key={slug} className="my-10">
-              <header>
-                <Link href={`/blog/${slug}`} className="text-3xl">
-                  {frontmatter.title}
-                </Link>
-                <p className="text-sm mt-2">{frontmatter.date}</p>
-              </header>
-              <section>
-                <p>{frontmatter.description}</p>
-              </section>
-            </article>
-          ))}
-      </main>
-    </div>
+    <Layout>
+      <div className="w-full h-full dark:bg-black prose dark:prose-invert">
+        <header className="text-5xl">Blog posts</header>
+        <main>
+          {posts
+            .filter(
+              ({ frontmatter }) =>
+                !frontmatter.is_draft ||
+                process.env.NEXT_PUBLIC_SHOW_BLOG_DRAFTS
+            )
+            .map(({ slug, frontmatter }) => (
+              <article key={slug} className="my-10">
+                <header>
+                  <Link href={`/blog/${slug}`} className="text-3xl">
+                    {frontmatter.title}
+                  </Link>
+                  <p className="text-sm mt-2">{frontmatter.date}</p>
+                </header>
+                <section>
+                  <p>{frontmatter.description}</p>
+                </section>
+              </article>
+            ))}
+        </main>
+      </div>
+    </Layout>
   );
 }
 
