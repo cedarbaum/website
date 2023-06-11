@@ -6,41 +6,12 @@ import { MDXProvider } from "@mdx-js/react";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { Highlight, themes, Prism } from "prism-react-renderer";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Toaster, toast } from "react-hot-toast";
 
-(typeof global !== "undefined" ? global : window).Prism = Prism;
-require("prismjs/components/prism-python");
-require("prismjs/components/prism-lisp");
-
-function Code({ children, className }: any) {
-  const language = className?.replace(/language-/gm, "");
-  if (!language) {
-    return <code className={className}>{children}</code>;
-  }
-
-  return (
-    <Highlight code={children} language={language} theme={themes.vsDark}>
-      {({ className, style, tokens, getLineProps, getTokenProps }) => (
-        <code className={className} style={style}>
-          {tokens.slice(0, -1).map((line, i) => (
-            <div key={i} {...getLineProps({ line, key: i })}>
-              {line.map((token, key) => (
-                <span key={key} {...getTokenProps({ token, key })} />
-              ))}
-            </div>
-          ))}
-        </code>
-      )}
-    </Highlight>
-  );
-}
-
 function Pre({ children, className }: any) {
-  const grandChildren = children?.props?.children;
-
   const [clipboardShown, setClipboardShown] = useState(false);
+  const preRef = useRef<HTMLPreElement | null>(null);
 
   const onMouseEnter = () => {
     setClipboardShown(true);
@@ -51,9 +22,7 @@ function Pre({ children, className }: any) {
   };
 
   const onClipboardClick = () => {
-    navigator.clipboard.writeText(
-      grandChildren ? grandChildren.trim() : children.trim()
-    );
+    navigator.clipboard.writeText(preRef.current?.innerText ?? "");
     toast("Copied to clipboard", {
       icon: "✂️",
     });
@@ -64,8 +33,9 @@ function Pre({ children, className }: any) {
       className={`${className ?? ""} relative`}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
+      ref={preRef}
     >
-      {(grandChildren || children) && clipboardShown && (
+      {clipboardShown && (
         <div className="flex flex-col justify-center absolute top-0 right-4 h-full">
           <ClipboardDocumentIcon
             className="w-6 h-6 cursor-pointer opacity-70 hover:opacity-100"
@@ -110,9 +80,7 @@ export default function Layout({
             </Link>
           </nav>
         )}
-        <MDXProvider components={{ code: Code, pre: Pre }}>
-          {children}
-        </MDXProvider>
+        <MDXProvider components={{ pre: Pre }}>{children}</MDXProvider>
       </div>
     </>
   );
