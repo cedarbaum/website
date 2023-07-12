@@ -160,7 +160,7 @@ export default function Chat({
   );
 
   const handleSendMessage = (text: string) => {
-    if (isFetching) {
+    if (isFetching || text.trim().length === 0) {
       return;
     }
 
