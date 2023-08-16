@@ -21,7 +21,6 @@ const cannedResponses: CannedResponse[] = [
 🏃 https://www.runstreak.app - a web app for tracking run streaks on Strava
 ☁️ https://www.postmodern.cloud - a postmodern take on weather forecasts
 🥤 https://www.dietcoke.reviews - reviews of diet coke around NYC
-🗺️ https://www.subwaygpt.app - get (not very accurate) NYC subway directions using GPT-3
 
 You can visit these links to learn more about the individual projects.`,
   },
