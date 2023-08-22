@@ -32,7 +32,7 @@ He interned at Google and worked at Microsoft and Amazon.
 If the user asks about his resume, you can refer them to this link: https://standardresume.co/r/053t9kOzs0YFW-7MdganD
 
 Sam is working on a few projects:
-- 🚇 https://closingdoors.nyc/ - a minimalist NYC subway and PATH schedule viewer
+- 🚇 https://closingdoors.nyc/ - a minimalist NYC subway, bus, and PATH schedule viewer
 - 🏠 https://www.housecheck.nyc/ - search housing data in NYC
 - 🏃 https://www.runstreak.app/ - a web app for tracking run streaks on Strava
 - ☁️ https://www.postmodern.cloud/ - a postmodern take on weather forecasts

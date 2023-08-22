@@ -16,7 +16,7 @@ const cannedResponses: CannedResponse[] = [
     trigger: "projects",
     text: `Sam is currently working on several projects. These Include:
 
-🚇 https://closingdoors.nyc - a minimalist NYC subway schedule viewer
+🚇 https://closingdoors.nyc - a minimalist NYC subway, bus, and PATH schedule viewer
 🏠 https://www.housecheck.nyc/ - search housing data in NYC
 🏃 https://www.runstreak.app - a web app for tracking run streaks on Strava
 ☁️ https://www.postmodern.cloud - a postmodern take on weather forecasts
