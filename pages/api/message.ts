@@ -140,6 +140,7 @@ export default async function handler(
       const responseMessageContent = response.data.choices[0].message?.content;
 
       if (functionCall !== undefined) {
+        allMessages.push(response.data.choices[0].message!);
         switch (functionCall.name) {
           case "send_email":
             // HACK: If in the same session we try to sent 1 email,
