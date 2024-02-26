@@ -38,7 +38,7 @@ function processAssistantText(text: string, id: number): [Message, Context] {
       );
     });
 
-    const emailRegex = /(scedarbaum@gmail.com)/g;
+    const emailRegex = /(sam.cedarbaum@icloud.com)/g;
     return textWithUrlsReplaced.replace(emailRegex, function (email) {
       hasContactInfo = true;
       return (

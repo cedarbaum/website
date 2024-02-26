@@ -18,9 +18,9 @@ export default function ContactCard() {
           <dd>
             <a
               className="hover:text-gray-900"
-              href="mailto:scedarbaum@gmail.com"
+              href="mailto:sam.cedarbaum@icloud.com"
             >
-              scedarbaum@gmail.com
+              sam.cedarbaum@icloud.com
             </a>
           </dd>
         </div>
