@@ -18,9 +18,9 @@ export default function ContactCard() {
           <dd>
             <a
               className="hover:text-gray-900"
-              href="mailto:sam.cedarbaum@icloud.com"
+              href={`mailto:${process.env.NEXT_PUBLIC_CONTACT_EMAIL}`}
             >
-              sam.cedarbaum@icloud.com
+              {process.env.NEXT_PUBLIC_CONTACT_EMAIL}
             </a>
           </dd>
         </div>

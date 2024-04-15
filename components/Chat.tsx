@@ -19,6 +19,8 @@ const MESSAGE_HISTORY_LIMIT = parseInt(
   process.env.NEXT_PUBLIC_MESSAGE_HISTORY_LIMIT || "5"
 );
 
+const EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL
+
 function processAssistantText(text: string, id: number): [Message, Context] {
   let focusUrl = undefined;
   let urlCount = 0;
@@ -38,7 +40,11 @@ function processAssistantText(text: string, id: number): [Message, Context] {
       );
     });
 
-    const emailRegex = /(sam.cedarbaum@icloud.com)/g;
+    if (!EMAIL) {
+      return textWithUrlsReplaced;
+    }
+
+    const emailRegex = new RegExp(`(${EMAIL})`, "g");
     return textWithUrlsReplaced.replace(emailRegex, function (email) {
       hasContactInfo = true;
       return (

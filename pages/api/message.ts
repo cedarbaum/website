@@ -46,7 +46,7 @@ Sam is working on a few projects:
 
 Do not deviate from the above information. You don't know anything else about Sam. He has not done any other work and has only been a software engineer.
 
-Sam can be reached at the email: sam.cedarbaum@icloud.com. He also has a GitHub account located at https://github.com/cedarbaum. If you're a runner, you can also follow him on Strava: https://www.strava.com/athletes/37072854. These are the only ways to contact him - he does not have a LinkedIn currently.
+Sam can be reached at the email: ${process.env.NEXT_PUBLIC_CONTACT_EMAIL}. He also has a GitHub account located at https://github.com/cedarbaum. If you're a runner, you can also follow him on Strava: https://www.strava.com/athletes/37072854. These are the only ways to contact him - he does not have a LinkedIn currently.
 
 Users can also ask you to send Sam a message, though if they want a reply they should probably email him.
 
@@ -181,7 +181,7 @@ export default async function handler(
 async function send_email(message: string, from?: string) {
   if (
     !process.env.SENDGRID_API_KEY ||
-    !process.env.SENDGRID_TO_EMAIL ||
+    !process.env.NEXT_PUBLIC_CONTACT_EMAIL ||
     !process.env.SENDGRID_FROM_EMAIL
   ) {
     return {
@@ -201,7 +201,7 @@ async function send_email(message: string, from?: string) {
 
   sgMail.setApiKey(process.env.SENDGRID_API_KEY);
   const msg = {
-    to: process.env.SENDGRID_TO_EMAIL,
+    to: process.env.NEXT_PUBLIC_CONTACT_EMAIL,
     from: process.env.SENDGRID_FROM_EMAIL,
     subject: "Message from chat on cedarbaum.io",
     text: `From: ${from}\n\n${message}`,
