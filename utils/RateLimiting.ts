@@ -10,6 +10,7 @@ const globalRateLimit = new Ratelimit({
   redis: Redis.fromEnv(),
   limiter: Ratelimit.fixedWindow(globalRequestLimit, "24 h"),
   prefix: RATE_LIMIT_PREFIX,
+  analytics: false,
 });
 
 const perIpPerMinRequestLimit = parseInt(process.env.PER_IP_PER_MIN_LIMIT!);
@@ -17,6 +18,7 @@ const ipLimit = new Ratelimit({
   redis: Redis.fromEnv(),
   limiter: Ratelimit.slidingWindow(perIpPerMinRequestLimit, "1 m"),
   prefix: RATE_LIMIT_PREFIX,
+  analytics: false,
 });
 
 export default async function apiQuotaAvailable(req: NextApiRequest) {
