@@ -9,7 +9,7 @@ const globalRequestLimit = parseInt(process.env.DAILY_API_LIMIT!);
 const globalRateLimit = new Ratelimit({
   redis: Redis.fromEnv(),
   limiter: Ratelimit.fixedWindow(globalRequestLimit, "24 h"),
-  prefix: RATE_LIMIT_PREFIX,
+  prefix: `${RATE_LIMIT_PREFIX}-global`,
   analytics: false,
 });
 
@@ -17,7 +17,7 @@ const perIpPerMinRequestLimit = parseInt(process.env.PER_IP_PER_MIN_LIMIT!);
 const ipLimit = new Ratelimit({
   redis: Redis.fromEnv(),
   limiter: Ratelimit.slidingWindow(perIpPerMinRequestLimit, "1 m"),
-  prefix: RATE_LIMIT_PREFIX,
+  prefix: `${RATE_LIMIT_PREFIX}-ip`,
   analytics: false,
 });
 
