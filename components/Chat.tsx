@@ -28,7 +28,7 @@ function processAssistantText(text: string, id: number): [Message, Context] {
   function urlify(text: string) {
     // HACK: ensure URL doesn't end with common punctuation
     const urlRegex = /(https?:\/\/[^\s]+[^\.,;:\s\)\(])/g;
-    const textWithUrlsReplaced = text.replace(urlRegex, function (url) {
+    const textWithUrlsReplaced = text.replace(urlRegex, function(url) {
       urlCount++;
       focusUrl = url;
       return (
@@ -45,7 +45,7 @@ function processAssistantText(text: string, id: number): [Message, Context] {
     }
 
     const emailRegex = new RegExp(`(${EMAIL})`, "g");
-    return textWithUrlsReplaced.replace(emailRegex, function (email) {
+    return textWithUrlsReplaced.replace(emailRegex, function(email) {
       hasContactInfo = true;
       return (
         '<a target="_" class="underline" href="mailto:' +
@@ -87,7 +87,6 @@ export default function Chat({
   const commonChips = [
     { label: "📝 Resume", message: "Resume" },
     { label: "📧 Contact", message: "Contact" },
-    { label: "🚧 Projects", message: "Projects" },
   ];
 
   const [messages, setMessages] = useState<Message[]>([

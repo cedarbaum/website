@@ -14,18 +14,6 @@ const cannedResponses: CannedResponse[] = [
 
 You can also ask me to send Sam a message and I'll make sure he gets it. If you want a reply though, you should probably email him.`,
   },
-  {
-    trigger: "projects",
-    text: `Sam is currently working on several projects. These Include:
-
-🚇 https://closingdoors.nyc - a minimalist NYC subway, bus, and PATH schedule viewer
-🏠 https://www.housecheck.nyc/ - search housing data in NYC
-🏃 https://www.runstreak.app - a web app for tracking run streaks on Strava
-☁️ https://www.postmodern.cloud - a postmodern take on weather forecasts
-🥤 https://www.dietcoke.reviews - reviews of Diet Coke in restaurants
-
-You can visit these links to learn more about the individual projects.`,
-  },
 ];
 
 export default function getCannedResponse(text?: string) {
