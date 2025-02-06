@@ -1,6 +1,6 @@
 import { EnvelopeIcon, HomeIcon } from "@heroicons/react/24/outline";
 
-import { GitHubIcon } from "./SocialIcons";
+import { GitHubIcon } from "./social-icons";
 
 export default function ContactCard() {
   return (

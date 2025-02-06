@@ -1,7 +1,7 @@
 import fs from "fs";
 import matter from "gray-matter";
 import Link from "next/link";
-import Layout from "./Layout";
+import Layout from "./layout";
 
 export default function BlogIndex({
   posts,

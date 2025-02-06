@@ -1,8 +1,10 @@
+"use client";
+
 import { useWindowWidth } from "@react-hook/window-size";
 import Head from "next/head";
 import { useState } from "react";
-import Chat, { Context, ContextType } from "components/Chat";
-import ContactCard from "@/components/ContactCard";
+import Chat, { Context, ContextType } from "@/components/chat";
+import ContactCard from "@/components/contact-card";
 
 const blockedUrlDomains = ["strava", "github"];
 const blockedUrlHosts = new Set(
@@ -84,9 +86,8 @@ export default function Home() {
           <div className="md:p-8 relative h-full w-full md:mx-auto flex justify-center">
             <div className="w-full flex justify-center">
               <div
-                className={`h-full w-full md:max-w-md overflow-hidden ${
-                  sidecarExpanded ? "md:rounded-l-lg" : "md:rounded-lg"
-                }`}
+                className={`h-full w-full md:max-w-md overflow-hidden ${sidecarExpanded ? "md:rounded-l-lg" : "md:rounded-lg"
+                  }`}
               >
                 <Chat onContextChange={onContextChange} />
               </div>

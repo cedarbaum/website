@@ -1,5 +1,4 @@
-import apiQuotaAvailable from "@/utils/RateLimiting";
-import type { NextApiRequest, NextApiResponse } from "next";
+import apiQuotaAvailable from "@/lib/rate-limiting";
 import {
   ChatCompletionFunctions,
   ChatCompletionRequestMessage,
@@ -78,16 +77,12 @@ const functions: ChatCompletionFunctions[] = [
   },
 ];
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Data | Error>
-) {
+export async function POST(req: Request): Promise<Response> {
   if (!(await apiQuotaAvailable(req))) {
-    res.status(429).json({ error: "Exceeded request limit" });
-    return;
+    return new Response("Exceeded request limit", { status: 429 });
   }
 
-  const { messages } = JSON.parse(req.body) as {
+  const { messages } = await req.json() as {
     messages: Message[];
   };
 
@@ -100,8 +95,7 @@ export default async function handler(
 
   for (const message of limitedMessages) {
     if (message.text.length > MAX_MESSAGE_LENGTH) {
-      res.status(400).json({ error: "Message too long" });
-      return;
+      return new Response("Message too long", { status: 400 });
     }
   }
 
@@ -156,10 +150,9 @@ export default async function handler(
             throw new Error(`Unknown function call: ${functionCall.name}`);
         }
       } else {
-        res.status(200).json({
+        return new Response(JSON.stringify({
           nextMessage: responseMessageContent!,
-        });
-        return;
+        }), { status: 200 });
       }
     } catch (e: any) {
       console.error(e?.message);
@@ -168,7 +161,7 @@ export default async function handler(
   } while (numFunctionCalls++ < MAX_FUNCTION_CALLS);
 
   console.error("Too many function calls", numFunctionCalls);
-  res.status(429).json({ error: "Too many functional calls." });
+  return new Response("Too many functional calls.", { status: 429 });
 }
 
 async function send_email(message: string, from?: string) {

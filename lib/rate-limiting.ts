@@ -1,7 +1,5 @@
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
-import { NextApiRequest } from "next";
-import requestIp from "request-ip";
 
 const RATE_LIMIT_PREFIX = "cedarbaum.io";
 
@@ -21,7 +19,7 @@ const ipLimit = new Ratelimit({
   analytics: false,
 });
 
-export default async function apiQuotaAvailable(req: NextApiRequest) {
+export default async function apiQuotaAvailable(req: Request) {
   const { success: globalRateOk } = await globalRateLimit.limit(
     "globalRateLimit"
   );
@@ -30,7 +28,13 @@ export default async function apiQuotaAvailable(req: NextApiRequest) {
     return false;
   }
 
-  const detectedIp = requestIp.getClientIp(req) ?? "unknown";
+  const detectedIp = getIp(req)
   const { success: perIpOk } = await ipLimit.limit(detectedIp);
   return perIpOk;
+}
+
+
+function getIp(req: Request) {
+  const ip = req.headers.get("x-forwarded-for");
+  return ip ? ip.split(",")[0].trim() : "unknown";
 }
