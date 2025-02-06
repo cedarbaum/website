@@ -1,7 +1,6 @@
 
 "use client";
 
-import "@/styles/globals.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { Analytics } from "@vercel/analytics/react";
