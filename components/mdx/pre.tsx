@@ -1,8 +1,8 @@
 "use client"
 
 import {
-    ClipboardDocumentIcon,
-} from "@heroicons/react/24/outline";
+    CopyIcon,
+} from "lucide-react";
 import { useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 
@@ -34,7 +34,7 @@ export function Pre({ children, className }: any) {
         >
             {clipboardShown && (
                 <div className="flex flex-col justify-center absolute top-0 right-4 h-full">
-                    <ClipboardDocumentIcon
+                    <CopyIcon
                         className="w-6 h-6 cursor-pointer opacity-70 hover:opacity-100"
                         onClick={onClipboardClick}
                     />

@@ -1,4 +1,4 @@
-import { EnvelopeIcon, HomeIcon } from "@heroicons/react/24/outline";
+import { MailIcon, HomeIcon } from "lucide-react";
 
 import { GitHubIcon } from "./social-icons";
 
@@ -10,7 +10,7 @@ export default function ContactCard() {
         <div className="flex gap-x-4">
           <dt className="flex-none">
             <span className="sr-only">Telephone</span>
-            <EnvelopeIcon
+            <MailIcon
               className="h-7 w-6 text-gray-400"
               aria-hidden="true"
             />

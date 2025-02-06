@@ -49,3 +49,8 @@ body,
 .prose :where(code):not(:where([class~="not-prose"] *))::after {
   content: "";
 }
+@layer base {
+  :root {
+    --radius: 0.5rem;
+  }
+}

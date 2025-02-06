@@ -9,12 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@headlessui/react": "^1.7.13",
-    "@heroicons/react": "^2.0.16",
+    "@ai-sdk/openai": "^1.1.9",
     "@leafac/rehype-shiki": "^2.2.1",
-    "@mdx-js/loader": "^2.3.0",
-    "@mdx-js/react": "^2.3.0",
-    "@next/mdx": "^13.4.3",
+    "@next/mdx": "latest",
+    "@radix-ui/react-slot": "^1.1.2",
     "@react-hook/window-size": "^3.1.1",
     "@sendgrid/mail": "^7.7.0",
     "@tanstack/react-query": "^4.27.0",
@@ -25,8 +23,12 @@
     "@upstash/ratelimit": "^0.4.0",
     "@upstash/redis": "^1.20.1",
     "@vercel/analytics": "^0.1.11",
+    "ai": "^4.1.21",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
     "eslint": "8.34.0",
     "gray-matter": "^4.0.3",
+    "lucide-react": "^0.474.0",
     "next": "^14.2.23",
     "openai": "^3.2.1",
     "react": "^18.3.1",
@@ -42,7 +44,10 @@
     "remark-math": "^5.1.1",
     "request-ip": "^3.3.0",
     "shiki": "^0.11.1",
-    "typescript": "4.9.5"
+    "tailwind-merge": "^3.0.1",
+    "tailwindcss-animate": "^1.0.7",
+    "typescript": "4.9.5",
+    "zod": "^3.24.1"
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.9",

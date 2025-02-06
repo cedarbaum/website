@@ -1,13 +1,12 @@
-import { ListBulletIcon } from "@heroicons/react/24/outline";
+import { ListIcon } from "lucide-react";
 import Link from "next/link";
-import { Toaster } from "react-hot-toast";
 
 export default function Layout({ children }: { children: JSX.Element }) {
   return (
     <div >
       <nav className="pb-4">
         <Link href="/blog">
-          <ListBulletIcon className="w-8 h-8 cursor-pointer opacity-70 hover:opacity-100" />
+          <ListIcon className="w-8 h-8 cursor-pointer opacity-70 hover:opacity-100" />
         </Link>
       </nav>
       {children}
