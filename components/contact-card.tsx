@@ -1,6 +1,6 @@
 import { MailIcon, HomeIcon } from "lucide-react";
 
-import { GitHubIcon } from "./social-icons";
+import { GitHubIcon } from "./icons";
 
 export default function ContactCard() {
   return (

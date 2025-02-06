@@ -7,10 +7,9 @@ import {
 } from "openai";
 import sgMail from "@sendgrid/mail";
 
-const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-const openai = new OpenAIApi(configuration);
+import { openai } from '@ai-sdk/openai';
+import { streamText, tool } from 'ai';
+import { z } from 'zod';
 
 type Data = {
   nextMessage: string;
@@ -26,9 +25,7 @@ type Message = {
   role: "user" | "assistant" | "system";
 };
 
-const systemPrompt = {
-  role: "system",
-  content: `You're a chatbot that knows all about Sam Cedarbaum. Users will ask you questions about Sam and you'll answer them You only answer questions about Sam Cedarbaum using the information provided below about him:
+const systemPrompt = `You're a chatbot that knows all about Sam Cedarbaum. Users will ask you questions about Sam and you'll answer them You only answer questions about Sam Cedarbaum using the information provided below about him:
 He is a Software Engineer who lives in New York, New York.
 He was born in Evanston, Illinois and attended Evanston Township High School.
 His birthday is November 30th.
@@ -43,8 +40,9 @@ Sam can be reached at the email: ${process.env.NEXT_PUBLIC_CONTACT_EMAIL}. He al
 Users can also ask you to send Sam a message, though if they want a reply they should probably email him.
 
 His website is  https://cedarbaum.io/, which the user is likely currently on.
-`,
-};
+
+You can use markdown formatting to make your responses more readable. Use markdown for links as well as email addresses.
+`;
 
 const MESSAGE_HISTORY_LIMIT = parseInt(
   process.env.NEXT_PUBLIC_MESSAGE_HISTORY_LIMIT || "5"
@@ -82,86 +80,43 @@ export async function POST(req: Request): Promise<Response> {
     return new Response("Exceeded request limit", { status: 429 });
   }
 
-  const { messages } = await req.json() as {
-    messages: Message[];
-  };
-
-  const validMessages = messages.filter(
-    (m) => m.role === "assistant" || m.role === "user"
+  const { messages } = await req.json();
+  console.log(messages);
+  const limitedMessages = messages.slice(
+    Math.max(messages.length - MESSAGE_HISTORY_LIMIT, 0)
   );
-  const limitedMessages = validMessages.slice(
-    Math.max(validMessages.length - MESSAGE_HISTORY_LIMIT, 0)
-  );
-
   for (const message of limitedMessages) {
-    if (message.text.length > MAX_MESSAGE_LENGTH) {
+    if (message.content.length > MAX_MESSAGE_LENGTH) {
       return new Response("Message too long", { status: 400 });
     }
   }
 
-  const allMessages = [
-    systemPrompt,
-    ...limitedMessages.map((m) => ({
-      role: m.role,
-      content: m.text,
-    })),
-  ] as ChatCompletionRequestMessage[];
+  // Prepend the system prompt to the messages
+  messages.unshift({
+    role: "system",
+    content: systemPrompt,
+  });
 
-  let numFunctionCalls = 0;
-  let numEmailsSent = 0;
-  let lastSendEmailResult: { result?: string; error?: string } = {};
-  do {
-    try {
-      const response = await openai.createChatCompletion(
-        {
-          model: "gpt-4o-mini",
-          messages: allMessages,
-          functions: functions,
-          function_call: "auto",
+  const result = streamText({
+    model: openai('gpt-4o-mini'),
+    messages,
+    tools: {
+      weather: tool({
+        description: 'Get the weather in a location (fahrenheit)',
+        parameters: z.object({
+          location: z.string().describe('The location to get the weather for'),
+        }),
+        execute: async ({ location }) => {
+          const temperature = Math.round(Math.random() * (90 - 32) + 32);
+          return {
+            location,
+            temperature,
+          };
         },
-        { timeout: 15000 }
-      );
-
-      const functionCall = response.data.choices[0].message?.function_call;
-      const functionArgs = JSON.parse(functionCall?.arguments ?? "{}");
-      const responseMessageContent = response.data.choices[0].message?.content;
-
-      if (functionCall !== undefined) {
-        allMessages.push(response.data.choices[0].message!);
-        switch (functionCall.name) {
-          case "send_email":
-            // HACK: If in the same session we try to sent 1 email,
-            // just ignore subsequent calls to send_email
-            if (numEmailsSent == 0) {
-              lastSendEmailResult = await send_email(
-                functionArgs.message,
-                functionArgs.from
-              );
-              numEmailsSent++;
-            }
-
-            allMessages.push({
-              role: "function",
-              name: "send_email",
-              content: JSON.stringify(lastSendEmailResult),
-            });
-            break;
-          default:
-            throw new Error(`Unknown function call: ${functionCall.name}`);
-        }
-      } else {
-        return new Response(JSON.stringify({
-          nextMessage: responseMessageContent!,
-        }), { status: 200 });
-      }
-    } catch (e: any) {
-      console.error(e?.message);
-      throw e;
-    }
-  } while (numFunctionCalls++ < MAX_FUNCTION_CALLS);
-
-  console.error("Too many function calls", numFunctionCalls);
-  return new Response("Too many functional calls.", { status: 429 });
+      }),
+    },
+  });
+  return result.toDataStreamResponse();
 }
 
 async function send_email(message: string, from?: string) {

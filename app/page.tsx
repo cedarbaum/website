@@ -82,11 +82,11 @@ export default function Home() {
         />
       </Head>
       <main className="w-full h-full">
-        <div className="page-background relative h-full w-full flex flex-col md:mx-auto">
+        <div className="bg-primary dark:bg-black relative h-full w-full flex flex-col md:mx-auto">
           <div className="md:p-8 relative h-full w-full md:mx-auto flex justify-center">
             <div className="w-full flex justify-center">
               <div
-                className={`h-full w-full md:max-w-md overflow-hidden ${sidecarExpanded ? "md:rounded-l-lg" : "md:rounded-lg"
+                className={`h-full w-full md:max-w-md overflow-visible ${sidecarExpanded ? "md:rounded-l-lg" : "md:rounded-lg"
                   }`}
               >
                 <Chat onContextChange={onContextChange} />
