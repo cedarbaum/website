@@ -10,6 +10,8 @@ import { SparklesIcon, } from 'lucide-react';
 import { Markdown } from './markdown';
 import equal from 'fast-deep-equal';
 import { cn } from '@/lib/utils';
+import { Weather } from './weather';
+import { Resume } from './resume';
 
 const PurePreviewMessage = ({
     message,
@@ -61,12 +63,20 @@ const PurePreviewMessage = ({
                                 {message.toolInvocations.map((toolInvocation) => {
                                     const { toolName, toolCallId, state, args } = toolInvocation;
 
+                                    console.log(toolInvocation);
                                     if (state === 'result') {
                                         const { result } = toolInvocation;
 
+                                        console.log(result);
                                         return (
                                             <div key={toolCallId}>
-                                                <pre>{JSON.stringify(result, null, 2)}</pre>
+                                                {toolName === 'getNycWeather' ? (
+                                                    <Weather weatherAtLocation={result} />
+                                                ) : toolName === 'getResume' ? (
+                                                    <Resume resume={result} />
+                                                ) : (
+                                                    <pre>{JSON.stringify(result, null, 2)}</pre>
+                                                )}
                                             </div>
                                         );
                                     }
@@ -74,9 +84,12 @@ const PurePreviewMessage = ({
                                         <div
                                             key={toolCallId}
                                             className={cx({
-                                                skeleton: ['getWeather'].includes(toolName),
+                                                skeleton: ['getNycWeather'].includes(toolName),
                                             })}
                                         >
+                                            {toolName === 'getNycWeather' ? (
+                                                <Weather />
+                                            ) : null}
                                         </div>
                                     );
                                 })}

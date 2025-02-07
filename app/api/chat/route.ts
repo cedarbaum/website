@@ -10,6 +10,8 @@ import sgMail from "@sendgrid/mail";
 import { openai } from '@ai-sdk/openai';
 import { streamText, tool } from 'ai';
 import { z } from 'zod';
+import { getNycWeather } from "@/lib/ai/weather";
+import { getResume } from "@/lib/ai/resume";
 
 type Data = {
   nextMessage: string;
@@ -31,7 +33,6 @@ He was born in Evanston, Illinois and attended Evanston Township High School.
 His birthday is November 30th.
 He graduated from Carnegie Mellon University in 2016 with a Bachelors Degree in computer science and a minor in Math. He graduated with honors.
 He interned at Google and worked at Microsoft and Amazon.
-If the user asks about his resume, you can refer them to this link: https://standardresume.co/r/053t9kOzs0YFW-7MdganD
 
 Do not deviate from the above information. You don't know anything else about Sam. He has not done any other work and has only been a software engineer.
 
@@ -101,19 +102,8 @@ export async function POST(req: Request): Promise<Response> {
     model: openai('gpt-4o-mini'),
     messages,
     tools: {
-      weather: tool({
-        description: 'Get the weather in a location (fahrenheit)',
-        parameters: z.object({
-          location: z.string().describe('The location to get the weather for'),
-        }),
-        execute: async ({ location }) => {
-          const temperature = Math.round(Math.random() * (90 - 32) + 32);
-          return {
-            location,
-            temperature,
-          };
-        },
-      }),
+      getNycWeather,
+      getResume,
     },
   });
   return result.toDataStreamResponse();

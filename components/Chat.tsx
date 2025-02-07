@@ -71,7 +71,6 @@ export default function Chat({
 
   return (
     <div className="overflow-visible relative justify-center items-center flex flex-col h-full">
-      <Glow className="absolute top-0 left-0 w-full h-full" />
       <div className="relative flex flex-col w-[calc(100%-1rem)] h-[calc(100%-1rem)] rounded-lg overflow-hidden bg-white dark:bg-black dark:text-white">
         <Messages
           isLoading={isLoading}
@@ -89,6 +88,7 @@ export default function Chat({
           />
         </form>
       </div>
+      <Glow className="absolute top-0 left-0 w-full h-full" />
     </div >
   )
 }

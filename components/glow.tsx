@@ -1,4 +1,5 @@
-import { FC } from 'react';
+import { FC, useRef } from 'react';
+import { useResizeObserver } from 'usehooks-ts';
 
 interface GlowProps {
     children?: React.ReactNode;
@@ -6,11 +7,50 @@ interface GlowProps {
 }
 
 const Glow: FC<GlowProps> = ({ children, className = '' }) => {
+    const glowRef = useRef<HTMLDivElement>(null);
+    const { width, height } = useResizeObserver({
+        ref: glowRef,
+    });
+
+    let clipPath = 'none';
+    if (width && height) {
+        const aspectRatio = width / height;
+        const insetPercentageWidth = 2;
+        const insetPercentageHeight = insetPercentageWidth * aspectRatio;
+        console.log(width, height, aspectRatio, insetPercentageWidth, insetPercentageHeight);
+        clipPath = `polygon(
+        0 0,
+        100% 0,
+        100% 100%,
+        0 100%,
+        0 0,
+        ${insetPercentageWidth}% ${insetPercentageHeight}%,
+        ${insetPercentageWidth}% calc(100% - ${insetPercentageHeight}%),
+        calc(100% - ${insetPercentageWidth}%) calc(100% - ${insetPercentageHeight}%),
+        calc(100% - ${insetPercentageWidth}%) ${insetPercentageHeight}%,
+        ${insetPercentageWidth}% ${insetPercentageHeight}%
+    )`;
+    }
+
     return (
-        <div className={`rainbow-glow ${className}`}>
+        <div ref={glowRef} className={`rainbow-glow overflow-visible ${className}`}>
             {children}
             <style jsx>{`
         .rainbow-glow {
+        filter: blur(4px) saturate(1.8);
+        pointer-events: none;
+        }
+
+        .rainbow-glow::before {
+          content: '';
+          pointer-events: none;
+          position: absolute;
+          background-color: red;
+          overflow: visible;
+          top: 0;
+          left: 0;
+          bottom: 0;
+          right: 0;
           background: linear-gradient(
             45deg,
             #ff0000,
@@ -26,7 +66,7 @@ const Glow: FC<GlowProps> = ({ children, className = '' }) => {
           animation: rainbow 15s ease infinite;
           padding: 1rem;
           border-radius: 0.5rem;
-          filter: blur(10px);
+  clip-path: ${clipPath};
         }
 
         @keyframes rainbow {
