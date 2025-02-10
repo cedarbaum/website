@@ -6,7 +6,8 @@ export const getResume = tool({
   parameters: z.object({}),
   execute: async () => {
     return {
-        resumeLink: process.env.RESUME_LINK,
+        resumeLink: process.env.NEXT_PUBLIC_RESUME_LINK,
+        downloadLink: process.env.NEXT_PUBLIC_RESUME_DOWNLOAD_LINK,
     }
   },
 });

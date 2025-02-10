@@ -1,54 +1,13 @@
-import { useRef } from "react";
 import { useChat } from "ai/react";
-import { Message, UIMessage } from "@ai-sdk/ui-utils";
-import { MemoizedMarkdown } from "./memoized-markdown";
 import { Messages } from "./messages";
 import { Input } from "./input";
-import { toast, useToast } from "@/hooks/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import Glow from "./glow";
+import { useEffect, useRef, useState } from "react";
+import { useResizeObserver } from "usehooks-ts";
 
-export enum ContextType {
-  Generic,
-  SingleUrl,
-  Contact,
-}
-
-export type Context = {
-  type: ContextType;
-  data: string | null;
-};
-
-const MESSAGE_HISTORY_LIMIT = parseInt(
-  process.env.NEXT_PUBLIC_MESSAGE_HISTORY_LIMIT || "5"
-);
-
-const EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL
-
-const initialMessages: Message[] = [
-  {
-    id: "1",
-    role: "assistant",
-    content: `Hey there! Welcome to Sam's website! You can ask me all sorts of questions about Sam, such as:\n
-1. Tell me about Sam
-2. How can I contact Sam?
-3.  Does he have a resume or just this weird chatbot?`,
-  },
-];
-
-export default function Chat({
-  onContextChange,
-}: {
-  onContextChange: (ctx: Context) => void;
-}) {
-  const messageContainerRef = useRef<HTMLDivElement>(null);
-
-  const commonChips = [
-    { label: "📝 Resume", message: "Resume" },
-    { label: "📧 Contact", message: "Contact" },
-  ];
-
+export default function Chat() {
   const { toast } = useToast();
-
   const {
     messages,
     setMessages,
@@ -57,11 +16,12 @@ export default function Chat({
     setInput,
     isLoading,
     stop,
+    append,
   } = useChat({
-    initialMessages,
     experimental_throttle: 100,
     sendExtraMessageFields: true,
     onError: (error) => {
+      console.error(error);
       toast({
         title: "An error occured, please try again!",
         description: error.message,
@@ -69,9 +29,30 @@ export default function Chat({
     },
   });
 
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { width, height } = useResizeObserver({
+    ref: containerRef,
+  });
+
+  const [isFocused, setIsFocused] = useState(false);
+  const [showGlow, setShowGlow] = useState(false);
+
+  useEffect(() => {
+    const abortController = new AbortController();
+    if (isLoading || isFocused) {
+      setShowGlow(true);
+    } else {
+      const timeout = setTimeout(() => {
+        setShowGlow(false);
+      }, 3000);
+      return () => clearTimeout(timeout);
+    }
+  }, [isLoading, isFocused]);
+
   return (
-    <div className="overflow-visible relative justify-center items-center flex flex-col h-full">
-      <div className="relative flex flex-col w-[calc(100%-1rem)] h-[calc(100%-1rem)] rounded-lg overflow-hidden bg-white dark:bg-black dark:text-white">
+    <div ref={containerRef} className="overflow-visible relative justify-center items-center flex flex-col h-full text-foreground">
+      <Glow width={width} height={height} visible={showGlow} />
+      <div className="relative flex flex-col w-[calc(100%-1rem)] h-[calc(100%-1rem)] rounded-lg overflow-hidden bg-background border-white/10">
         <Messages
           isLoading={isLoading}
           messages={messages}
@@ -81,29 +62,20 @@ export default function Chat({
           <Input
             input={input}
             setInput={setInput}
-            handleSubmit={handleSubmit}
+            handleSubmit={() => {
+              setIsFocused(false);
+              handleSubmit();
+            }}
             isLoading={isLoading}
             stop={stop}
             setMessages={setMessages}
+            messages={messages}
+            append={append}
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => setIsFocused(false)}
           />
         </form>
       </div>
-      <Glow className="absolute top-0 left-0 w-full h-full" />
     </div >
   )
-}
-
-function MessageBubble({ message, isTyping, isError }: { message: UIMessage, isTyping?: boolean, isError?: boolean }) {
-  let bubbleClass = "ml-auto bg-blue-500 text-white";
-  if (isError) {
-    bubbleClass = "bg-red-500 text-white";
-  } else if (message.role === "assistant" || message.role === "system") {
-    bubbleClass = "mr-auto bg-gray-200";
-  }
-
-  return (
-    <div className={`prose p-3 mb-2 rounded-lg max-w-sm w-fit ${bubbleClass}`}>
-      <MemoizedMarkdown id={message.id} content={message.content} />
-    </div>
-  );
 }

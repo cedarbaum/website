@@ -3,6 +3,7 @@ import { PreviewMessage, ThinkingMessage } from './message';
 import { useScrollToBottom } from '@/hooks/use-scroll-to-bottom';
 import { memo } from 'react';
 import equal from 'fast-deep-equal';
+import { Overview } from './overview';
 
 interface MessagesProps {
     isLoading: boolean;
@@ -22,8 +23,10 @@ function PureMessages({
     return (
         <div
             ref={messagesContainerRef}
-            className="flex flex-col min-w-0 gap-6 flex-1 overflow-y-scroll pt-4"
+            className="flex flex-col min-w-0 gap-6 flex-1 overflow-y-scroll pt-8"
         >
+            {messages.length === 0 && <Overview />}
+
             {messages.map((message, index) => (
                 <PreviewMessage
                     key={message.id}

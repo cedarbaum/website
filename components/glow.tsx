@@ -1,24 +1,24 @@
+import { AnimatePresence, motion } from 'framer-motion';
 import { FC, useRef } from 'react';
 import { useResizeObserver } from 'usehooks-ts';
 
 interface GlowProps {
-    children?: React.ReactNode;
-    className?: string;
+  children?: React.ReactNode;
+  className?: string;
+  width?: number;
+  height?: number;
+  visible?: boolean;
 }
 
-const Glow: FC<GlowProps> = ({ children, className = '' }) => {
-    const glowRef = useRef<HTMLDivElement>(null);
-    const { width, height } = useResizeObserver({
-        ref: glowRef,
-    });
+const Glow: FC<GlowProps> = ({ children, className = '', width, height, visible = true }) => {
 
-    let clipPath = 'none';
-    if (width && height) {
-        const aspectRatio = width / height;
-        const insetPercentageWidth = 2;
-        const insetPercentageHeight = insetPercentageWidth * aspectRatio;
-        console.log(width, height, aspectRatio, insetPercentageWidth, insetPercentageHeight);
-        clipPath = `polygon(
+  let clipPath = 'none';
+  if (width && height) {
+    const aspectRatio = width / height;
+    const insetPercentageWidth = 3;
+    const insetPercentageHeight = insetPercentageWidth * aspectRatio;
+    console.log(width, height, aspectRatio, insetPercentageWidth, insetPercentageHeight);
+    clipPath = `polygon(
         0 0,
         100% 0,
         100% 100%,
@@ -30,59 +30,46 @@ const Glow: FC<GlowProps> = ({ children, className = '' }) => {
         calc(100% - ${insetPercentageWidth}%) ${insetPercentageHeight}%,
         ${insetPercentageWidth}% ${insetPercentageHeight}%
     )`;
-    }
+  } else {
+    return null;
+  }
 
-    return (
-        <div ref={glowRef} className={`rainbow-glow overflow-visible ${className}`}>
-            {children}
-            <style jsx>{`
-        .rainbow-glow {
-        filter: blur(4px) saturate(1.8);
-        pointer-events: none;
-        }
-
-        .rainbow-glow::before {
-          content: '';
-          pointer-events: none;
-          position: absolute;
-          background-color: red;
-          overflow: visible;
-          top: 0;
-          left: 0;
-          bottom: 0;
-          right: 0;
-          background: linear-gradient(
-            45deg,
-            #ff0000,
-            #ff8000,
-            #ffff00,
-            #00ff00,
-            #00ffff,
-            #0000ff,
-            #8000ff,
-            #ff0080
-          );
-          background-size: 400% 400%;
-          animation: rainbow 15s ease infinite;
-          padding: 1rem;
-          border-radius: 0.5rem;
-  clip-path: ${clipPath};
-        }
-
-        @keyframes rainbow {
-          0% {
-            background-position: 0% 50%;
-          }
-          50% {
-            background-position: 100% 50%;
-          }
-          100% {
-            background-position: 0% 50%;
-          }
-        }
-      `}</style>
-        </div>
-    );
+  return (
+    <AnimatePresence>
+      {visible && (
+        <motion.div
+          key={'glow'}
+          className={`absolute top-0 left-0 rainbow-glow overflow-visible ${className}`}
+          initial={{
+            top: 20,
+            left: 20,
+            right: 20,
+            bottom: 20,
+            zIndex: 0
+          }}
+          animate={{
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+          }}
+          exit={{
+            top: 20,
+            left: 20,
+            right: 20,
+            bottom: 20,
+            zIndex: 0,
+            transition: {
+              duration: 0.5,
+              ease: 'easeInOut'
+            }
+          }}
+        >
+          {children}
+        </motion.div>
+      )}
+    </AnimatePresence >
+  );
 };
 
 export default Glow;

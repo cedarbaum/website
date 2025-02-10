@@ -12,6 +12,8 @@ import equal from 'fast-deep-equal';
 import { cn } from '@/lib/utils';
 import { Weather } from './weather';
 import { Resume } from './resume';
+import ContactCard from './contact-card';
+import EmailSent from './email-sent';
 
 const PurePreviewMessage = ({
     message,
@@ -62,18 +64,18 @@ const PurePreviewMessage = ({
                             <div className="flex flex-col gap-4">
                                 {message.toolInvocations.map((toolInvocation) => {
                                     const { toolName, toolCallId, state, args } = toolInvocation;
-
-                                    console.log(toolInvocation);
                                     if (state === 'result') {
                                         const { result } = toolInvocation;
-
-                                        console.log(result);
                                         return (
                                             <div key={toolCallId}>
                                                 {toolName === 'getNycWeather' ? (
                                                     <Weather weatherAtLocation={result} />
                                                 ) : toolName === 'getResume' ? (
                                                     <Resume resume={result} />
+                                                ) : toolName === 'getContact' ? (
+                                                    <ContactCard email={result.email} github={result.github} location={result.location} />
+                                                ) : toolName === 'sendEmail' ? (
+                                                    <EmailSent message={result.message} subject={result.subject} from={result.from} error={result.error} />
                                                 ) : (
                                                     <pre>{JSON.stringify(result, null, 2)}</pre>
                                                 )}

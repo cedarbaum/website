@@ -1,139 +1,152 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { cx } from "class-variance-authority";
 import { Button } from "./ui/button";
 import { ExpandIcon, DownloadIcon, FileTextIcon, MinimizeIcon } from "lucide-react";
-import { motion, useAnimate } from "framer-motion";
+import { Skeleton } from "./ui/skeleton";
 interface Resume {
     resumeLink: string;
-}
-
-enum AnimationState {
-    INITIAL,
-    ANIMATING_TO_FULLSCREEN,
-    ANIMATING_TO_NORMAL,
-    IS_FULLSCREEN,
+    downloadLink: string;
 }
 
 export function Resume({ resume }: { resume: Resume }) {
     const frameRef = useRef<HTMLDivElement>(null);
+    const resumeContainerRef = useRef<HTMLDivElement>(null);
+    const iframeRef = useRef<HTMLIFrameElement>(null);
+
     const [isFullscreen, setIsFullscreen] = useState(false);
-    const [boundingBox, setBoundingBox] = useState({
-        top: 0,
-        left: 0,
-        width: 0,
-        height: 0
-    });
-    const [animationRunning, setAnimationRunning] = useState(false);
-    const [animationState, setAnimationState] = useState(AnimationState.INITIAL);
 
     const toggleFullscreen = () => {
         if (frameRef.current) {
-            if (isFullscreen) {
-                setAnimationState(AnimationState.ANIMATING_TO_NORMAL);
-            } else {
-                setAnimationState(AnimationState.ANIMATING_TO_FULLSCREEN);
-            }
             const { top, left, width, height } = frameRef.current.getBoundingClientRect();
-            setBoundingBox({ top, left, width, height });
+            if (!isFullscreen) {
+                // Set initial position of resume container
+                resumeContainerRef.current?.style.setProperty('position', 'fixed');
+                resumeContainerRef.current?.style.setProperty('top', `${top}px`);
+                resumeContainerRef.current?.style.setProperty('left', `${left}px`);
+                resumeContainerRef.current?.style.setProperty('width', `${width}px`);
+                resumeContainerRef.current?.style.setProperty('height', `${height}px`);
+                resumeContainerRef.current?.style.setProperty('z-index', '100');
+                resumeContainerRef.current?.style.setProperty('transition', 'none');
+
+                requestAnimationFrame(() => {
+                    resumeContainerRef.current?.style.setProperty('transition', 'all 0.3s ease-in-out');
+                    resumeContainerRef.current?.style.setProperty('top', '0');
+                    resumeContainerRef.current?.style.setProperty('left', '0');
+                    resumeContainerRef.current?.style.setProperty('width', '100%');
+                    resumeContainerRef.current?.style.setProperty('height', '100%');
+                    resumeContainerRef.current?.style.setProperty('border-radius', '0');
+                });
+            } else {
+                resumeContainerRef.current?.style.setProperty('transition', 'all 0.3s ease-in-out');
+                resumeContainerRef.current?.style.setProperty('top', `${top}px`);
+                resumeContainerRef.current?.style.setProperty('left', `${left}px`);
+                resumeContainerRef.current?.style.setProperty('width', `${width}px`);
+                resumeContainerRef.current?.style.setProperty('height', `${height}px`);
+                resumeContainerRef.current?.style.setProperty('border-radius', '1rem');
+
+                const abortController = new AbortController();
+                resumeContainerRef.current?.addEventListener('transitionend', () => {
+                    console.log('transitionend');
+                    setTimeout(() => {
+                        resumeContainerRef.current?.style.setProperty('transition', 'none');
+                        resumeContainerRef.current?.style.setProperty('position', 'absolute');
+                        resumeContainerRef.current?.style.setProperty('top', '0');
+                        resumeContainerRef.current?.style.setProperty('left', '0');
+                        resumeContainerRef.current?.style.setProperty('width', '100%');
+                        resumeContainerRef.current?.style.setProperty('height', '100%');
+                    }, 100);
+                    abortController.abort();
+                }, { signal: abortController.signal });
+            }
+
             setIsFullscreen(!isFullscreen);
-            setAnimationRunning(true);
         }
     }
-
-    const onAnimationEnd = () => {
-        console.log('Animation ended')
-        setAnimationRunning(false);
-        if (isFullscreen) {
-            setAnimationState(AnimationState.IS_FULLSCREEN);
-        }
-    }
-
-    const absoluteBoundingBox = {
-        top: 0,
-        left: 0,
-        width: '100%',
-        height: '100%',
-        position: 'absolute'
-    };
-
-    const fixedAnimationStartBoundingBox = {
-        top: boundingBox.top,
-        left: boundingBox.left,
-        width: boundingBox.width,
-        height: boundingBox.height,
-        position: 'fixed'
-    };
-
-    const fixedAnimationEndBoundingBox = {
-        top: 0,
-        left: 0,
-        width: '100%',
-        height: '100%',
-        position: 'fixed'
-    };
-
-    let initial, animate = {}
-
-    switch (animationState) {
-        case AnimationState.INITIAL:
-            initial = absoluteBoundingBox;
-            break;
-        case AnimationState.IS_FULLSCREEN:
-            initial = fixedAnimationEndBoundingBox;
-            animate = fixedAnimationEndBoundingBox;
-            break;
-        case AnimationState.ANIMATING_TO_FULLSCREEN:
-            initial = fixedAnimationStartBoundingBox
-            animate = fixedAnimationEndBoundingBox
-            break;
-        case AnimationState.ANIMATING_TO_NORMAL:
-            initial = fixedAnimationEndBoundingBox
-            animate = fixedAnimationStartBoundingBox
-            break;
-    }
-
-    console.log(initial, animate, animationRunning)
 
     return (
         <div ref={frameRef} className="relative w-full h-[500px]">
-            <motion.div
-                onAnimationEnd={onAnimationEnd}
-                initial={initial}
-                animate={animate}
-                className={cx(
-                    'flex flex-col skeleton-bg',
-                    (isFullscreen || animationRunning) && 'z-50',
-                )}
-            >
-                <div className="relative flex flex-col w-full h-full rounded-2xl overflow-hidden">
-                    <nav className="absolute px-2 flex justify-between items-center w-full h-[62px] bg-black border border-blue">
-                        <div className="flex items-center gap-2 font-lg">
-                            <FileTextIcon />
-                            <span className="text-sm font-medium">Resume</span>
-                        </div>
-                        <div className="flex items-center">
-                            <Button variant="ghost" size="icon">
-                                <DownloadIcon />
-                            </Button>
-                            <Button
-                                variant="ghost"
-                                size="icon"
-                                onClick={toggleFullscreen}
-                            >
-                                {isFullscreen ? <MinimizeIcon /> : <ExpandIcon />}
-                            </Button>
-                        </div>
-                    </nav>
-                    <iframe
-                        scrolling="no"
-                        src={resume.resumeLink}
-                        className={cx(
-                            "w-full h-full overflow-hidden",
-                            isFullscreen ? "" : "pointer-events-none"
-                        )}
-                    />
+            <div ref={resumeContainerRef} className="flex flex-col absolute inset-0 rounded-2xl overflow-hidden border">
+                <ResumeContent
+                    resumeLink={resume.resumeLink}
+                    downloadLink={resume.downloadLink}
+                    isFullscreen={isFullscreen}
+                    toggleFullscreen={toggleFullscreen}
+                    iframeRef={iframeRef} />
+            </div>
+        </div>
+    );
+}
+
+
+interface ResumeContentProps {
+    resumeLink: string;
+    downloadLink: string;
+    isFullscreen: boolean;
+    toggleFullscreen: () => void;
+    iframeRef: React.RefObject<HTMLIFrameElement>;
+}
+
+function ResumeContent({ resumeLink, downloadLink, isFullscreen, toggleFullscreen, iframeRef }: ResumeContentProps) {
+    const [isLoading, setIsLoading] = useState(true);
+    return (
+        <div className="relative flex flex-col w-full h-full">
+            <nav className="absolute px-2 flex justify-between items-center w-full h-[62px] bg-black border">
+                <div className="flex items-center gap-2 font-lg">
+                    <FileTextIcon />
+                    <span className="text-sm font-medium">Resume</span>
                 </div>
-            </motion.div>
+                <div className="flex items-center">
+                    <Button variant="ghost" size="icon" onClick={() => window.open(downloadLink, '_blank')}>
+                        <DownloadIcon />
+                    </Button>
+                    <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={toggleFullscreen}
+                    >
+                        {isFullscreen ? <MinimizeIcon /> : <ExpandIcon />}
+                    </Button>
+                </div>
+            </nav>
+            {isLoading && (
+                <div className="absolute top-[62px] left-0 right-0 bottom-0 p-4 bg-black">
+                    <ResumeSkeleton />
+                </div>
+            )}
+            <iframe
+                ref={iframeRef}
+                onLoad={() => setIsLoading(false)}
+                scrolling={!isFullscreen ? "no" : "auto"}
+                src={resumeLink}
+                className={cx(
+                    "w-full h-full border-black",
+                    !isFullscreen && "pointer-events-none overflow-hidden"
+                )}
+            />
+        </div>
+    );
+}
+
+const ResumeSkeleton = () => {
+    return (
+        <div className="flex flex-col space-y-3">
+            <Skeleton className="h-[125px] w-[150px] rounded-xl" />
+            <div className="space-y-2 mt-8">
+                <Skeleton className="h-6 w-[300px]" />
+                <Skeleton className="h-6 w-[300px]" />
+            </div>
+            <div className="space-y-2 mt-8">
+                <Skeleton className="h-6 w-[300px]" />
+                <Skeleton className="h-6 w-[300px]" />
+            </div>
+            <div className="space-y-2 mt-8">
+                <Skeleton className="h-6 w-[300px]" />
+                <Skeleton className="h-6 w-[300px]" />
+            </div>
+            <div className="space-y-2 mt-8">
+                <Skeleton className="h-6 w-[300px]" />
+                <Skeleton className="h-6 w-[300px]" />
+            </div>
         </div>
     );
 }

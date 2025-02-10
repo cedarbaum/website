@@ -24,6 +24,7 @@ import { ArrowUpIcon, StopCircleIcon } from 'lucide-react';
 import { Button } from './ui/button';
 import { Textarea } from './ui/textarea';
 import { useToast } from '@/hooks/use-toast';
+import { SuggestedActions } from './suggested-actions';
 
 function PureInput({
     input,
@@ -32,7 +33,11 @@ function PureInput({
     stop,
     handleSubmit,
     className,
+    messages,
+    append,
     setMessages,
+    onFocus,
+    onBlur,
 }: {
     input: string;
     setInput: (value: string) => void;
@@ -45,7 +50,14 @@ function PureInput({
         },
         chatRequestOptions?: ChatRequestOptions,
     ) => void;
+    messages: Message[];
+    append: (
+        message: Message | CreateMessage,
+        chatRequestOptions?: ChatRequestOptions,
+    ) => Promise<string | null | undefined>;
     className?: string;
+    onFocus?: () => void;
+    onBlur?: () => void;
 }) {
     const textareaRef = useRef<HTMLTextAreaElement>(null);
     const { toast } = useToast()
@@ -114,6 +126,9 @@ function PureInput({
 
     return (
         <div className="relative w-full flex flex-col gap-4">
+            {messages.length === 0 &&
+                <SuggestedActions append={append} />
+            }
             <Textarea
                 ref={textareaRef}
                 placeholder="Send a message..."
@@ -125,6 +140,8 @@ function PureInput({
                 )}
                 rows={2}
                 autoFocus
+                onFocus={onFocus}
+                onBlur={onBlur}
                 onKeyDown={(event: React.KeyboardEvent<HTMLTextAreaElement>) => {
                     if (event.key === 'Enter' && !event.shiftKey) {
                         event.preventDefault();
