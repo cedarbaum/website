@@ -9,7 +9,7 @@ export default function Page() {
       <main className="w-full h-full">
         <div className="bg-primary dark:bg-black relative h-full w-full flex flex-col md:mx-auto">
           <div className="md:p-8 relative h-full w-full md:mx-auto flex flex-col justify-center items-center">
-            <div className="w-full h-full md:max-w-md md:h-[60%] overflow-visible">
+            <div className="w-full h-full min-h-[480px] md:max-w-md md:h-[60%] overflow-visible">
               <Chat />
             </div>
           </div>
