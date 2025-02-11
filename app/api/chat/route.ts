@@ -46,7 +46,7 @@ export async function POST(req: Request): Promise<Response> {
   }
 
   // Prepend the system prompt to the messages
-  messages.unshift({
+  limitedMessages.unshift({
     role: "system",
     content: systemPrompt,
   });
