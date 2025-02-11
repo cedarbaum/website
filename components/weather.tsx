@@ -249,7 +249,6 @@ export function Weather({
     );
 
     const fahrenheit = (celsius: number) => {
-        console.log(weatherAtLocation.current_units.temperature_2m);
         if (weatherAtLocation.current_units.temperature_2m === '°C') {
             return (celsius * 9) / 5 + 32;
         }

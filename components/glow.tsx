@@ -1,39 +1,12 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import { FC, useRef } from 'react';
-import { useResizeObserver } from 'usehooks-ts';
+import { FC } from 'react';
 
 interface GlowProps {
-  children?: React.ReactNode;
   className?: string;
-  width?: number;
-  height?: number;
   visible?: boolean;
 }
 
-const Glow: FC<GlowProps> = ({ children, className = '', width, height, visible = true }) => {
-
-  let clipPath = 'none';
-  if (width && height) {
-    const aspectRatio = width / height;
-    const insetPercentageWidth = 3;
-    const insetPercentageHeight = insetPercentageWidth * aspectRatio;
-    console.log(width, height, aspectRatio, insetPercentageWidth, insetPercentageHeight);
-    clipPath = `polygon(
-        0 0,
-        100% 0,
-        100% 100%,
-        0 100%,
-        0 0,
-        ${insetPercentageWidth}% ${insetPercentageHeight}%,
-        ${insetPercentageWidth}% calc(100% - ${insetPercentageHeight}%),
-        calc(100% - ${insetPercentageWidth}%) calc(100% - ${insetPercentageHeight}%),
-        calc(100% - ${insetPercentageWidth}%) ${insetPercentageHeight}%,
-        ${insetPercentageWidth}% ${insetPercentageHeight}%
-    )`;
-  } else {
-    return null;
-  }
-
+const Glow: FC<GlowProps> = ({ className = '', visible = true }) => {
   return (
     <AnimatePresence>
       {visible && (
@@ -64,9 +37,7 @@ const Glow: FC<GlowProps> = ({ children, className = '', width, height, visible 
               ease: 'easeInOut'
             }
           }}
-        >
-          {children}
-        </motion.div>
+        />
       )}
     </AnimatePresence >
   );

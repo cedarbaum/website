@@ -3,8 +3,8 @@ import { Messages } from "./messages";
 import { Input } from "./input";
 import { useToast } from "@/hooks/use-toast";
 import Glow from "./glow";
-import { useEffect, useRef, useState } from "react";
-import { useResizeObserver } from "usehooks-ts";
+import { useEffect, useState } from "react";
+
 
 export default function Chat() {
   const { toast } = useToast();
@@ -29,14 +29,8 @@ export default function Chat() {
     },
   });
 
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { width, height } = useResizeObserver({
-    ref: containerRef,
-  });
-
   const [isFocused, setIsFocused] = useState(false);
   const [showGlow, setShowGlow] = useState(false);
-
   useEffect(() => {
     const abortController = new AbortController();
     if (isLoading || isFocused) {
@@ -50,8 +44,8 @@ export default function Chat() {
   }, [isLoading, isFocused]);
 
   return (
-    <div ref={containerRef} className="overflow-visible relative justify-center items-center flex flex-col h-full text-foreground">
-      <Glow width={width} height={height} visible={showGlow} />
+    <div className="overflow-visible relative justify-center items-center flex flex-col h-full text-foreground">
+      <Glow visible={showGlow} />
       <div className="relative flex flex-col w-[calc(100%-1rem)] h-[calc(100%-1rem)] rounded-lg overflow-hidden bg-background border-white/10">
         <Messages
           isLoading={isLoading}

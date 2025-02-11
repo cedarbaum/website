@@ -46,7 +46,6 @@ export function Resume({ resume }: { resume: Resume }) {
 
                 const abortController = new AbortController();
                 resumeContainerRef.current?.addEventListener('transitionend', () => {
-                    console.log('transitionend');
                     setTimeout(() => {
                         resumeContainerRef.current?.style.setProperty('transition', 'none');
                         resumeContainerRef.current?.style.setProperty('position', 'absolute');

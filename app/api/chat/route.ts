@@ -36,7 +36,6 @@ export async function POST(req: Request): Promise<Response> {
   }
 
   const { messages } = await req.json();
-  console.log(messages);
   const limitedMessages = messages.slice(
     Math.max(messages.length - MESSAGE_HISTORY_LIMIT, 0)
   );
@@ -54,7 +53,7 @@ export async function POST(req: Request): Promise<Response> {
 
   const result = streamText({
     model: openai('gpt-4o-mini'),
-    messages,
+    messages: limitedMessages,
     tools: {
       getNycWeather,
       getResume,
