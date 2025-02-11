@@ -25,9 +25,9 @@ function PureSuggestedActions({ append }: SuggestedActionsProps) {
             action: `Contact Sam`,
         },
         {
-            title: 'Email',
-            label: `Send an email to Sam`,
-            action: `Send an email to Sam`,
+            title: 'Message',
+            label: `Send a message to Sam`,
+            action: `Send a message to Sam`,
         },
         {
             title: 'Weather',
