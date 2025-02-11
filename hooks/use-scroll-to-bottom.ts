@@ -1,11 +1,13 @@
-import { useEffect, useRef, type RefObject } from 'react';
+import { useEffect, useRef, type RefObject } from "react";
+import { useScrollController } from "./use-scroll-controller";
 
 export function useScrollToBottom<T extends HTMLElement>(): [
   RefObject<T>,
-  RefObject<T>,
+  RefObject<T>
 ] {
   const containerRef = useRef<T>(null);
   const endRef = useRef<T>(null);
+  const scrollController = useScrollController();
 
   useEffect(() => {
     const container = containerRef.current;
@@ -13,7 +15,10 @@ export function useScrollToBottom<T extends HTMLElement>(): [
 
     if (container && end) {
       const observer = new MutationObserver(() => {
-        end.scrollIntoView({ behavior: 'instant', block: 'end' });
+        if (!scrollController.shouldScrollToBottom()) {
+          return;
+        }
+        end.scrollIntoView({ behavior: "instant", block: "end" });
       });
 
       observer.observe(container, {

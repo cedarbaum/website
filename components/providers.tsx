@@ -1,10 +1,9 @@
-
 "use client";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { useEffect } from "react";
 import { Analytics } from "@vercel/analytics/react";
 import { Toaster } from "./ui/toaster";
+import { ScrollController, ScrollControllerContext } from "@/hooks/use-scroll-controller";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -31,7 +30,9 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     return (
         <>
             <QueryClientProvider client={queryClient}>
-                {children}
+                <ScrollControllerContext.Provider value={new ScrollController()}>
+                    {children}
+                </ScrollControllerContext.Provider>
                 <Toaster />
             </QueryClientProvider>
             <Analytics />

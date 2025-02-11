@@ -3,6 +3,7 @@ import { cx } from "class-variance-authority";
 import { Button } from "./ui/button";
 import { ExpandIcon, DownloadIcon, FileTextIcon, MinimizeIcon } from "lucide-react";
 import { Skeleton } from "./ui/skeleton";
+import { useScrollController } from "@/hooks/use-scroll-controller";
 interface Resume {
     resumeLink: string;
     downloadLink: string;
@@ -12,7 +13,7 @@ export function Resume({ resume }: { resume: Resume }) {
     const frameRef = useRef<HTMLDivElement>(null);
     const resumeContainerRef = useRef<HTMLDivElement>(null);
     const iframeRef = useRef<HTMLIFrameElement>(null);
-
+    const scrollController = useScrollController();
     const [isFullscreen, setIsFullscreen] = useState(false);
 
     const toggleFullscreen = () => {
@@ -20,6 +21,7 @@ export function Resume({ resume }: { resume: Resume }) {
             const { top, left, width, height } = frameRef.current.getBoundingClientRect();
             if (!isFullscreen) {
                 // Set initial position of resume container
+                scrollController.pauseScrollToBottom();
                 resumeContainerRef.current?.style.setProperty('position', 'fixed');
                 resumeContainerRef.current?.style.setProperty('top', `${top}px`);
                 resumeContainerRef.current?.style.setProperty('left', `${left}px`);
@@ -53,7 +55,13 @@ export function Resume({ resume }: { resume: Resume }) {
                         resumeContainerRef.current?.style.setProperty('left', '0');
                         resumeContainerRef.current?.style.setProperty('width', '100%');
                         resumeContainerRef.current?.style.setProperty('height', '100%');
+                        resumeContainerRef.current?.style.setProperty('z-index', 'none');
                     }, 100);
+
+                    setTimeout(() => {
+                        scrollController.unpauseScrollToBottom();
+                    }, 500);
+
                     abortController.abort();
                 }, { signal: abortController.signal });
             }
