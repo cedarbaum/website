@@ -116,13 +116,15 @@ function ResumeContent({ resumeLink, downloadLink, isFullscreen, toggleFullscree
             <iframe
                 ref={iframeRef}
                 onLoad={() => setIsLoading(false)}
-                scrolling={!isFullscreen ? "no" : "auto"}
                 src={resumeLink}
                 className={cx(
                     "w-full h-full border-black",
                     !isFullscreen && "pointer-events-none overflow-hidden"
                 )}
             />
+            {!isFullscreen &&
+                <div onClick={toggleFullscreen} className="absolute top-[62px] left-0 right-0 bottom-0" />
+            }
         </div>
     );
 }
